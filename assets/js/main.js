@@ -50,4 +50,13 @@ $(document).ready(function() {
 	// сүзгі формасы: select өзгерсе жіберіледі
 	$('html').on('change', '.flt_auto', function(){ $(this).parents('form').submit() })
 
+	// мобильді «Мәзір» парағы
+	function msheet(on){ $('.msheet').toggleClass('msheet_open', on).attr('aria-hidden', on ? 'false' : 'true'); $('body').toggleClass('msheet_lock', on) }
+	$('.tbar_more').on('click', function(){ msheet(!$('.msheet').hasClass('msheet_open')) })
+	$('.msheet_bg').on('click', function(){ msheet(false) })
+	$(document).on('keydown', function(e){ if (e.key == 'Escape') msheet(false) })
+	var msy = null
+	$('.msheet_c').on('touchstart', function(e){ msy = this.scrollTop <= 0 ? e.originalEvent.touches[0].clientY : null })
+	$('.msheet_c').on('touchend', function(e){ if (msy !== null && e.originalEvent.changedTouches[0].clientY - msy > 80) msheet(false); msy = null })
+
 }) // end jquery
