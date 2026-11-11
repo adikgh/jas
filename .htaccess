@@ -6,3 +6,5 @@ Options -Indexes
 RewriteEngine On
 RewriteRule ^(config|sql|tests|tools|docs)(/|$) - [F,L]
 RewriteRule (^|/)\.git - [F,L]
+# медиа файлдар тек /media/file.php арқылы (рұқсат тексеріледі)
+RewriteRule ^assets/uploads/media(/|$) - [F,L]

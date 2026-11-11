@@ -186,6 +186,43 @@
 			db::q("insert into assessment_criteria (organization_id, code, name, sort) values (?, ?, ?, ?)", [$org, $c[0], $c[1], $i + 1]);
 		foreach ([['Апта үздігі', 'fa-star'], ['Тәртіп чемпионы', 'fa-shield-check'], ['Үздік гол', 'fa-futbol']] as $a)
 			db::q("insert into achievements (organization_id, name, icon, points) values (?, ?, ?, 30)", [$org, $a[0], $a[1]]);
+
+		// бағалаулар (2 рет: 2 ай бұрын және 10 күн бұрын)
+		$crit = array_column(db::all("select id from assessment_criteria where organization_id = ?", [$org]), 'id');
+		foreach ($parts as $i => $p) {
+			if ($i % 3 == 2) continue;
+			$base = mt_rand(4, 7);
+			foreach ([-60, -10] as $k => $d) {
+				$aid = db::ins("insert into player_assessments (organization_id, participant_id, coach_id, assessed_at, comment) values (?, ?, ?, ?, ?)",
+					[$org, $p['id'], $p['dir'] == 'kids' ? $coach1 : $coach2, date('Y-m-d', strtotime("$d day")), $k ? 'Жақсы өсу бар, сол аяқпен жұмыс істеу керек' : 'Бастапқы бағалау']);
+				foreach ($crit as $c) db::q("insert into assessment_scores (assessment_id, criterion_id, score) values (?, ?, ?)", [$aid, $c, max(1, min(10, $base + $k * mt_rand(0, 2) + mt_rand(-1, 1)))]);
+			}
+		}
+
+		// селекция
+		$sel = db::ins("insert into selection_campaigns (organization_id, name, target, start_date, end_date, created_by) values (?, 'FIRST TEAM 2027 іріктеу', 'first_team', ?, ?, ?)", [$org, $today, date('Y-m-d', strtotime('+30 day')), $coach2]);
+		$st = ['watching', 'candidate', 'invited', 'watching', 'candidate'];
+		$k = 0;
+		foreach ($parts as $p) if ($p['dir'] == 'adult' && !db::val("select id from team_rosters where participant_id = ? and left_at is null", [$p['id']]) && $k < 5)
+			db::q("insert into selection_candidates (organization_id, campaign_id, participant_id, status, notes) values (?, ?, ?, ?, ?)", [$org, $sel, $p['id'], $st[$k++], 'Жылдамдығы жақсы']);
+
+		// Training Hub
+		$lessons = [['technique', 'Допты екі аяқпен жүргізу', 'Конустар арасымен 10 метр, екі аяқпен кезектесіп', 'easy', '3 × 10', 'jNQXAC9IVRw'], ['physical', 'Жылдамдыққа жаттығу', 'Сатымен жүгіру және 20 м спринт', 'medium', '4 × 20 м', null], ['ball', 'Жонглирование', 'Допты жерге түсірмей ұрып тұру', 'easy', '5 мин', null], ['tactics', 'Позиция таңдау', 'Видеоны қарап, қорғаныс позициясын түсіну', 'medium', '1 видео', null]];
+		$lids = [];
+		foreach ($lessons as $l) $lids[] = db::ins("insert into training_lessons (organization_id, category, title, description, video_key, duration_min, level, reps, coach_tip, created_by) values (?, ?, ?, ?, ?, 15, ?, ?, 'Денені алға ұстаңыз, допқа қарамай жүргізуге тырысыңыз', ?)", [$org, $l[0], $l[1], $l[2], $l[5], $l[3], $l[4], $coach1]);
+		$asg = db::ins("insert into training_assignments (organization_id, lesson_id, group_id, due_date, created_by) values (?, ?, ?, ?, ?)", [$org, $lids[0], $gids[0], date('Y-m-d', strtotime('+5 day')), $coach1]);
+		db::ins("insert into training_assignments (organization_id, lesson_id, group_id, due_date, created_by) values (?, ?, ?, ?, ?)", [$org, $lids[2], $gids[1], date('Y-m-d', strtotime('+3 day')), $coach1]);
+
+		// медиа (YouTube видеолар) + келісімдер
+		$alb = db::ins("insert into media_albums (organization_id, name) values (?, 'ЛЛФ 1-тур')", [$org]);
+		db::q("insert into media_assets (organization_id, album_id, type, kind, storage_key, title, visibility, uploaded_by) values (?, ?, 'video', 'highlight', 'yt:jNQXAC9IVRw', 'Матч шолуы', 'parents', ?)", [$org, $alb, $u['87000000002']]);
+		foreach ($parts as $i => $p) if ($i % 2 == 0) db::q("insert into media_consents (organization_id, participant_id, scope, granted_at, recorded_by) values (?, ?, 'internal', now(), ?)", [$org, $p['id'], $u['87000000002']]);
+
+		// маркетинг: контент жоспары, тікелей эфир
+		foreach ([['instagram', 'KIDS жаттығуынан reels', 'ready', 1], ['tiktok', 'Голдар топ-5', 'in_work', 3], ['instagram', 'Күзгі қабылдау жарнамасы', 'idea', 6]] as $c)
+			db::q("insert into content_items (organization_id, channel, title, publish_at, status, assignee_id) values (?, ?, ?, ?, ?, ?)", [$org, $c[0], $c[1], date('Y-m-d 19:00:00', strtotime("+{$c[3]} day")), $c[2], $u['87000000002']]);
+		$nm = db::row("select id, match_at from matches where team_id = ? and status = 'scheduled' order by match_at limit 1", [$team]);
+		if ($nm) db::q("insert into live_streams (organization_id, match_id, platform, title, url, youtube_id, starts_at) values (?, ?, 'youtube', 'ЛЛФ: JAS FIRST TEAM тікелей эфир', 'https://www.youtube.com/watch?v=jNQXAC9IVRw', 'jNQXAC9IVRw', ?)", [$org, $nm['id'], $nm['match_at']]);
 	});
 
 	echo "seed ok\nДемо кіру: 87000000001 (иесі), 87000000002 (әкімші), 87000000003 (бапкер), 87000000005 (ата-ана), 87000000006 (қатысушы)\nҚұпия сөз: jas2026\n";

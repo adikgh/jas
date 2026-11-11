@@ -4,6 +4,7 @@
 	core::need_page(['owner', 'admin', 'coach']);
 	$fin = core::is(['owner', 'admin']);        // қаржы тек иесі мен әкімшіге
 	$is_coach_only = !$fin;
+	academy::notify_daily($org_id);   // туған күн, абонемент бітуі (dedupe)
 
 	list($sw, $sp) = fun::scope();
 	$m_start = date('Y-m-01');

@@ -3,3 +3,7 @@ assets/uploads/*
 !assets/uploads/.gitkeep
 !assets/uploads/.htaccess
 *.log
+
+!assets/uploads/media/
+assets/uploads/media/*
+!assets/uploads/media/.htaccess

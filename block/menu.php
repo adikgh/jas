@@ -2,6 +2,7 @@
 	// Мәзір. 'r' — кімге көрінеді (сервер жағында да әр бет өзі тексереді).
 	$menu_list = [
 		['dashboard', '/dashboard/', 'fa-chart-pie', 'Басқару тақтасы', ['owner', 'admin', 'coach']],
+		['cabinet', '/cabinet/', 'fa-home', 'Менің кабинетім', ['parent', 'participant']],
 		['participants', '/participants/', 'fa-users', 'Қатысушылар', ['owner', 'admin', 'coach', 'parent', 'participant']],
 		['groups', '/groups/', 'fa-users-class', 'Топтар', ['owner', 'admin', 'coach']],
 		['attendance', '/attendance/', 'fa-clipboard-check', 'Қатысу', ['owner', 'admin', 'coach']],
@@ -10,6 +11,13 @@
 		['payments', '/payments/', 'fa-wallet', 'Төлемдер', ['owner', 'admin']],
 		['rating', '/rating/', 'fa-trophy', 'JAS Rating', ['owner', 'admin', 'coach', 'parent', 'participant']],
 		['first_team', '/first_team/', 'fa-futbol', 'First Team & ЛЛФ', ['owner', 'admin', 'coach', 'participant']],
+		['progress', '/progress/', 'fa-chart-line', 'Прогресс', ['owner', 'admin', 'coach', 'parent', 'participant']],
+		['scouting', '/scouting/', 'fa-binoculars', 'Селекция', ['owner', 'admin', 'coach']],
+		['training', '/training/', 'fa-dumbbell', 'Training Hub', ['owner', 'admin', 'coach', 'parent', 'participant']],
+		['media', '/media/', 'fa-images', 'Медиа', ['owner', 'admin', 'coach', 'parent', 'participant']],
+		['live', '/live/', 'fa-video', 'JAS Live', ['owner', 'admin', 'coach', 'parent', 'participant']],
+		['crm', '/crm/', 'fa-bullhorn', 'Маркетинг CRM', ['owner', 'admin']],
+		['reports', '/reports/', 'fa-file-chart-line', 'Есептер', ['owner', 'admin']],
 	];
 ?>
 

@@ -149,6 +149,15 @@ SQL: `fun::debt_sql()`.
 | POST | `/rating/get.php?award` / `progress` / `manual` / `revoke` | coach (өз тобы), manual/revoke — owner, admin | |
 | GET | `/first_team/`, `/first_team/match.php?id=` | owner, admin, coach, participant (оқу) | |
 | POST | `/first_team/get.php?team_add` / `roster_add` / `roster_remove` / `match_add` / `match_save` | owner, admin, coach | матч абонемент лимитіне әсер етпейді |
+| GET/POST | `/progress/`, `item.php?id=`, `get.php?add` | барлығы оқиды (scope), бағалау — owner, admin, coach | 1–10, ≥3 көрсеткіш, орташа өссе +20 (айына 1) |
+| GET/POST | `/scouting/`, `get.php?campaign_add` / `campaign_status` / `candidate_add` / `candidate_status` | owner, admin, coach | accepted (first_team, adult) → құрамға |
+| GET/POST | `/cabinet/`, `get.php?freeze_request` | parent, participant | өз балалары ғана, requested → әкімшіге хабарлама |
+| GET/POST | `/media/`, `file.php?id=`, `get.php?album_add` / `upload` / `delete` / `consent` | барлығы көреді (visibility), жүктеу — staff | келісімсіз белгілеу бөгеледі, `assets/uploads/media/` тікелей жабық |
+| GET/POST | `/training/`, `get.php?lesson_add` / `assign` / `submit` / `review` | барлығы | тапсыру — тек өз тобы/өзі |
+| GET/POST | `/live/`, `get.php?add` / `status` | оқу — барлығы, қосу — staff | тек https YouTube/Instagram/TikTok |
+| GET/POST | `/crm/`, `get.php?lead_add` / `lead_status` / `campaign_add` / `content_add` / `content_status` | owner, admin | бір нөмірден бір белсенді өтінім |
+| GET/POST | `/notifications/`, `get.php?read` / `read_all` | барлығы (тек өзінікі) | notify_daily: туған күн, абонемент бітуі (dedupe) |
+| GET | `/reports/?y=&csv=finance\|debtors\|attendance` | owner, admin | CSV (Excel BOM), экспорт audit-та |
 
 ## 7. Файл құрылымы
 
@@ -162,6 +171,7 @@ jas.c/
 ├─ participants/  index.php item.php form.php get.php
 ├─ groups/   index.php get.php
 ├─ schedule/ attendance/ subscriptions/ payments/ rating/ first_team/  (index.php + get.php)
+├─ progress/ scouting/ cabinet/ media/ training/ live/ crm/ notifications/ reports/
 ├─ config/academy.php  — кесте, рейтинг, абонемент, төлем ережелері
 ├─ assets/   css/(norm main sign) js/(norm fun main sign participants groups) pl/ img/ uploads/
 ├─ sql/      001_schema.sql
@@ -188,5 +198,15 @@ jas.c/
 - [x] JAS Rating — айлық / тәртіп / All-Time, KIDS және ADULT бөлек, серия 5/10, 100% ай, марапат, прогресс
 - [x] First Team & ЛЛФ — құрам, матчтар, нәтиже, футболшы статистикасы, MVP, бомбардирлер
 
-**Phase 2** — Player progress (графиктер), Parent / Participant кабинеттері, Scouting.
-**Phase 3** — Media (Object Storage + келісімдер), Training Hub, YouTube Live, Marketing CRM, Notifications (ішкі, кейін WhatsApp), Reports.
+**Phase 2–3**
+- [x] Player progress — бағалау, график, көрсеткіштер, +20 прогресс ұпайы
+- [x] Parent / Participant кабинеті — келесі жаттығу, абонемент, қарыз, рейтинг, заморозка өтініші
+- [x] Scouting — кампания, kanban, accepted → First Team
+- [x] Media — альбом, фото (жабық сақтау), YouTube, ата-ана келісімі
+- [x] Training Hub — сабақтар, үй тапсырмасы, тексеру
+- [x] JAS Live — YouTube эфир, басталғанда хабарлама
+- [x] Marketing CRM — өтінімдер, кампаниялар (CPL), контент жоспары
+- [x] Notifications — ішкі хабарламалар (кейін WhatsApp)
+- [x] Reports — 12 ай қаржы, бағыт/тәсіл/санат, қатысу, қарыз, конверсия, CSV
+
+Кейін: Object Storage (қазір фото серверде), WhatsApp хабарлама, Kaspi интеграциясы.

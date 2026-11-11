@@ -158,4 +158,42 @@
 			$pct = db::val("select fee_percent from payment_method_fees where organization_id = ? and method = ? and (plan_id = ? or plan_id is null) order by plan_id is null limit 1", [(int) $org_id, $method, (int) $plan_id]);
 			return $pct ? round($amount * (float) $pct / 100, 2) : 0;
 		}
+
+
+		// ================= ХАБАРЛАМА =================
+
+		public static function notify_user($org_id, $uid, $type, $title, $body = null, $link = null, $dedupe = null) {
+			if (!$uid) return 0;
+			return (int) db::q("insert ignore into notifications (organization_id, user_id, type, title, body, link, dedupe_key) values (?, ?, ?, ?, ?, ?, ?)",
+				[(int) $org_id, (int) $uid, $type, mb_substr($title, 0, 160), $body === null ? null : mb_substr($body, 0, 500), $link, $dedupe]);
+		}
+
+		// Қатысушының өзіне және ата-аналарына
+		public static function notify_participant($org_id, $pid, $type, $title, $body = null, $link = null, $dedupe = null) {
+			$uids = db::all("select user_id uid from participants where id = ? and user_id is not null
+				union select gd.user_id from participant_guardians pg join guardians gd on gd.id = pg.guardian_id where pg.participant_id = ? and gd.user_id is not null", [(int) $pid, (int) $pid]);
+			foreach ($uids as $u) self::notify_user($org_id, $u['uid'], $type, $title, $body, $link, $dedupe);
+			return count($uids);
+		}
+
+		// Күнделікті автоматты хабарламалар (dedupe арқылы бір рет): абонемент бітуі, туған күн
+		public static function notify_daily($org_id) {
+			$today = date('Y-m-d');
+			foreach (db::all("select s.id, s.participant_id, s.end_date, p.first_name from subscriptions s join participants p on p.id = s.participant_id
+				where s.organization_id = ? and s.status = 'active' and s.end_date between ? and ?", [(int) $org_id, $today, date('Y-m-d', strtotime('+3 day'))]) as $s)
+				self::notify_participant($org_id, $s['participant_id'], 'sub_expiring', 'Абонемент '.date('d.m', strtotime($s['end_date'])).' бітеді', $s['first_name'].': абонементті ұзартуды ұмытпаңыз', '/cabinet/', 'sub_exp_'.$s['id']);
+			$staff = db::all("select user_id from memberships where organization_id = ? and active = 1 and role in ('owner', 'admin')", [(int) $org_id]);
+			foreach (db::all("select p.id, p.first_name, p.last_name, g.coach_id from participants p left join enrollments e on e.participant_id = p.id and e.end_date is null left join `groups` g on g.id = e.group_id
+				where p.organization_id = ? and p.archived_at is null and date_format(p.birth_date, '%m-%d') = ?", [(int) $org_id, date('m-d')]) as $p) {
+				$t = 'Бүгін туған күн: '.$p['last_name'].' '.$p['first_name'];
+				foreach ($staff as $u) self::notify_user($org_id, $u['user_id'], 'birthday', $t, null, '/participants/item.php?id='.$p['id'], 'bd_'.$p['id'].'_'.date('Y'));
+				if ($p['coach_id']) self::notify_user($org_id, $p['coach_id'], 'birthday', $t, null, '/participants/item.php?id='.$p['id'], 'bd_'.$p['id'].'_'.date('Y'));
+			}
+		}
+
+		// YouTube сілтемесінен ID
+		public static function yt_id($url) {
+			if (preg_match('~(?:youtu\.be/|youtube\.com/(?:watch\?(?:.*&)?v=|embed/|live/|shorts/))([A-Za-z0-9_-]{11})~', $url, $m)) return $m[1];
+			return preg_match('~^[A-Za-z0-9_-]{11}$~', $url) ? $url : null;
+		}
 	}

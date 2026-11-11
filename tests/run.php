@@ -301,6 +301,90 @@
 	ok('қатысушы матч бетін тек көреді', http('POST', '/first_team/get.php?match_save', ['id' => $fin['id'], 'status' => 'finished'], login('87000000006')[1])['code'] == 403);
 
 
+	echo "\nПрогресс, іріктеу, кабинет, медиа, сабақтар, эфир, CRM, хабарлама, есеп\n";
+	$pa = (int) db::val("select participant_id from player_assessments order by id limit 1");
+	$crit = array_column(db::all("select id from assessment_criteria where organization_id = 1 and active = 1"), 'id');
+	$sc = []; foreach ($crit as $c) $sc[$c] = 10;
+	$r = json_decode(http('POST', '/progress/get.php?add', ['id' => $pa, 'date' => date('Y-m-d'), 'scores' => [$crit[0] => 11, $crit[1] => 5, $crit[2] => 5]], $admin)['body'], true);
+	ok('бағалау: 1–10 сыртындағы балл бөгеледі', $r && !$r['ok']);
+	$r = json_decode(http('POST', '/progress/get.php?add', ['id' => $pa, 'date' => date('Y-m-d'), 'scores' => [$crit[0] => 7]], $admin)['body'], true);
+	ok('бағалау: кемінде 3 көрсеткіш', $r && !$r['ok']);
+	$r = json_decode(http('POST', '/progress/get.php?add', ['id' => $pa, 'date' => date('Y-m-d'), 'scores' => $sc], $admin)['body'], true);
+	ok('бағалау сақталды, өссе +20 прогресс ұпайы', $r && $r['ok'] && (int) db::val("select count(*) from rating_events where participant_id = ? and rule = 'progress'", [$pa]) === 1);
+	http('POST', '/progress/get.php?add', ['id' => $pa, 'date' => date('Y-m-d'), 'scores' => $sc], $admin);
+	ok('прогресс ұпайы айына бір рет', (int) db::val("select count(*) from rating_events where participant_id = ? and rule = 'progress'", [$pa]) === 1);
+	ok('ата-ана бағалау қоя алмайды', http('POST', '/progress/get.php?add', ['id' => $pa, 'date' => date('Y-m-d'), 'scores' => $sc], $parent)['code'] == 403);
+
+	$x = db::row("select x.id, x.participant_id from selection_candidates x join selection_campaigns c on c.id = x.campaign_id join participants p on p.id = x.participant_id where c.target = 'first_team' and c.status = 'open' and p.direction = 'adult' limit 1");
+	$r = json_decode(http('POST', '/scouting/get.php?candidate_status', ['id' => $x['id'], 'status' => 'accepted'], $admin)['body'], true);
+	ok('іріктеуден өткен ересек First Team құрамына қосылды', $r && $r['ok'] && $r['roster'] && db::val("select id from team_rosters where participant_id = ? and left_at is null", [$x['participant_id']]));
+	ok('ата-ана іріктеуді өзгерте алмайды', http('POST', '/scouting/get.php?candidate_status', ['id' => $x['id'], 'status' => 'failed'], $parent)['code'] == 403);
+
+	$kids = array_column(db::all("select pg.participant_id from participant_guardians pg join guardians g on g.id = pg.guardian_id join users u on u.id = g.user_id where u.phone = '87000000005'"), 'participant_id');
+	$alien_sub = (int) db::val("select id from subscriptions where status = 'active' and participant_id not in (".implode(',', array_map('intval', $kids)).") limit 1");
+	$r = json_decode(http('POST', '/cabinet/get.php?freeze_request', ['id' => $alien_sub, 'start' => date('Y-m-d', strtotime('+1 day')), 'days' => 2, 'reason' => 'Ауырып қалды'], $parent)['body'], true);
+	ok('ата-ана бөтен абонементке заморозка сұрай алмайды', $r && !$r['ok']);
+	$my_sub = db::row("select * from subscriptions where status = 'active' and participant_id in (".implode(',', array_map('intval', $kids)).") and end_date > ? order by id desc limit 1", [date('Y-m-d', strtotime('+2 day'))]);
+	if ($my_sub) {
+		$r = json_decode(http('POST', '/cabinet/get.php?freeze_request', ['id' => $my_sub['id'], 'start' => date('Y-m-d', strtotime('-1 day')), 'days' => 2, 'reason' => 'Ауырып қалды'], $parent)['body'], true);
+		ok('өткен күнге заморозка сұралмайды', $r && !$r['ok']);
+		db::q("delete from freezes where subscription_id = ? and status = 'requested'", [$my_sub['id']]);
+		$r = json_decode(http('POST', '/cabinet/get.php?freeze_request', ['id' => $my_sub['id'], 'start' => date('Y-m-d', strtotime('+12 day')), 'days' => 2, 'reason' => 'Ауырып қалды'], $parent)['body'], true);
+		ok('заморозка өтініші жасалды (requested), әкімшіге хабарлама', $r && $r['ok'] && db::val("select id from freezes where subscription_id = ? and status = 'requested'", [$my_sub['id']]) && db::val("select count(*) from notifications n join users u on u.id = n.user_id where u.phone = '87000000002' and n.dedupe_key like 'frz_%'"));
+	} else ok('ата-ана баласының белсенді абонементі бар', false);
+
+	$no_consent = (int) db::val("select p.id from participants p where p.organization_id = 1 and not exists (select 1 from media_consents c where c.participant_id = p.id and c.scope = 'internal' and c.revoked_at is null) limit 1");
+	$r = json_decode(http('POST', '/media/get.php?upload', ['visibility' => 'parents', 'youtube' => 'https://youtu.be/jNQXAC9IVRw', 'tags' => [$no_consent]], $admin)['body'], true);
+	ok('келісімсіз қатысушы белгіленген медиа ата-аналарға жарияланбайды', $r && !$r['ok']);
+	$r = json_decode(http('POST', '/media/get.php?upload', ['visibility' => 'staff', 'youtube' => 'https://youtu.be/dQw4w9WgXcQ', 'tags' => [$no_consent]], $admin)['body'], true);
+	ok('«тек қызметкерлер» көрінуімен сақталады', $r && $r['ok']);
+	$r = json_decode(http('POST', '/media/get.php?upload', ['visibility' => 'staff', 'youtube' => 'https://youtu.be/dQw4w9WgXcQ'], $admin)['body'], true);
+	ok('бір видео екі рет қосылмайды (қате бетсіз)', $r && !$r['ok']);
+	$fn = 'test_'.bin2hex(random_bytes(4)).'.jpg';
+	file_put_contents($root.'/assets/uploads/media/'.$fn, base64_decode('/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/wAALCAABAAEBAREA/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAD8AKp//2Q=='));
+	$mid = db::ins("insert into media_assets (organization_id, type, storage_key, visibility) values (1, 'photo', ?, 'staff')", ['img:'.$fn]);
+	ok('рұқсаты бар қызметкер фотоны ашады', http('GET', '/media/file.php?id='.$mid, null, $admin)['code'] == 200);
+	ok('ата-ана «тек қызметкер» фотосын ала алмайды', http('GET', '/media/file.php?id='.$mid, null, $parent)['code'] == 404);
+	ok('тікелей /assets/uploads/media/ URL жабық', http('GET', '/assets/uploads/media/'.$fn, null, $parent)['code'] == 403);
+	@unlink($root.'/assets/uploads/media/'.$fn);
+
+	$asg = db::row("select a.* from training_assignments a where a.group_id is not null limit 1");
+	$r = json_decode(http('POST', '/training/get.php?submit', ['id' => $asg['id'], 'participant_id' => $alien = (int) db::val("select participant_id from enrollments where end_date is null and group_id <> ? limit 1", [$asg['group_id']])], $admin)['body'], true);
+	ok('тапсырма басқа топтың қатысушысына жатпайды', $r && !$r['ok']);
+	$own = (int) db::val("select participant_id from enrollments where end_date is null and group_id = ? limit 1", [$asg['group_id']]);
+	$r = json_decode(http('POST', '/training/get.php?submit', ['id' => $asg['id'], 'participant_id' => $own], $parent)['body'], true);
+	ok('ата-ана бөтен баланың тапсырмасын жібере алмайды', in_array($own, $kids) || ($r && !$r['ok']));
+
+	$r = json_decode(http('POST', '/live/get.php?add', ['title' => 'Тест эфир', 'url' => 'http://youtube.com/watch?v=jNQXAC9IVRw', 'starts_at' => date('Y-m-d\TH:i')], $admin)['body'], true);
+	ok('эфир: https емес сілтеме бөгеледі', $r && !$r['ok']);
+	$r = json_decode(http('POST', '/live/get.php?add', ['title' => 'Тест эфир', 'url' => 'https://evil.example.com/youtube.com', 'starts_at' => date('Y-m-d\TH:i')], $admin)['body'], true);
+	ok('эфир: бөтен домен бөгеледі', $r && !$r['ok']);
+	$r = json_decode(http('POST', '/live/get.php?add', ['title' => 'Тест эфир', 'url' => 'https://www.youtube.com/watch?v=jNQXAC9IVRw', 'starts_at' => date('Y-m-d\TH:i')], $admin)['body'], true);
+	ok('эфир қосылды, YouTube ID алынды', $r && $r['ok'] && db::val("select youtube_id from live_streams where id = ?", [$r['id']]) == 'jNQXAC9IVRw');
+
+	$r = json_decode(http('POST', '/crm/get.php?lead_add', ['name' => 'Тест Ата-ана', 'phone' => '87071112233', 'source' => 'instagram', 'direction' => 'kids'], $admin)['body'], true);
+	ok('өтінім қосылды', $r && $r['ok']);
+	$r = json_decode(http('POST', '/crm/get.php?lead_add', ['name' => 'Тест Ата-ана', 'phone' => '+7 707 111 22 33', 'source' => 'instagram'], $admin)['body'], true);
+	ok('сол нөмірден қайталама белсенді өтінім бөгеледі', $r && !$r['ok']);
+	ok('бапкер CRM-ге кірмейді', http('POST', '/crm/get.php?lead_add', ['name' => 'X', 'phone' => '87071112234'], $coach)['code'] == 403);
+
+	$uid_p = (int) db::val("select id from users where phone = '87000000005'");
+	$uid_a = (int) db::val("select id from users where phone = '87000000002'");
+	academy::notify_user(1, $uid_p, 'other', 'Тест', null, null, 'test_p');
+	academy::notify_user(1, $uid_p, 'other', 'Тест', null, null, 'test_p');
+	ok('хабарлама dedupe: екі рет жасалмайды', (int) db::val("select count(*) from notifications where user_id = ? and dedupe_key = 'test_p'", [$uid_p]) === 1);
+	$a_unread = (int) db::val("select count(*) from notifications where user_id = ? and read_at is null", [$uid_a]);
+	$r = json_decode(http('POST', '/notifications/get.php?read_all', [], $parent)['body'], true);
+	ok('ата-ана өз хабарламаларын оқыды', $r && $r['ok'] && !(int) db::val("select count(*) from notifications where user_id = ? and read_at is null", [$uid_p]));
+	ok('басқа адамның хабарламасына әсер етпейді', (int) db::val("select count(*) from notifications where user_id = ? and read_at is null", [$uid_a]) === $a_unread && $a_unread > 0);
+
+	ok('бапкер есептерді көрмейді', http('GET', '/reports/', null, $coach)['code'] == 403);
+	$csv = http('GET', '/reports/?csv=debtors', null, $admin);
+	ok('есеп CSV экспорты (Excel BOM)', $csv['code'] == 200 && substr($csv['body'], 0, 3) == "\xEF\xBB\xBF");
+	$pg = http('GET', '/reports/', null, $admin);
+	ok('есептер беті ашылады', $pg['code'] == 200 && strpos($pg['body'], 'Ай сайынғы кіріс') !== false);
+
+
 	for ($i = 0; $i < 5; $i++) login('87000000004', 'bad-pass-'.$i);
 	list($b) = login('87000000004');
 	ok('5 қате әрекеттен кейін бөгеледі', $b == 'limit');
