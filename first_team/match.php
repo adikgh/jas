@@ -36,7 +36,7 @@
 		<div class="card ft_score">
 			<div class="ft_score_t"><?=h($mt['comp_name'].' '.$mt['season'])?> · <?=h($mt['round'])?></div>
 			<div class="ft_score_c">
-				<div><div class="ft_logo">JAS</div><b><?=h($mt['team_name'])?></b></div>
+				<div><img class="ft_logo ft_logo_img" src="/assets/img/first_team/logo.png" alt=""><b><?=h($mt['team_name'])?></b></div>
 				<div class="ft_score_n">
 					<? if ($mt['status'] == 'finished' || $mt['status'] == 'live'): ?><?=(int) $mt['goals_for']?> : <?=(int) $mt['goals_against']?><? else: ?><?=date('H:i', strtotime($mt['match_at']))?><? endif ?>
 					<span><?=$st_name[$mt['status']]?><?=($res?' · '.$res[0]:'')?></span>

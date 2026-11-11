@@ -12,3 +12,16 @@
 .ft_score_n span{display:block;font-size:12px;font-weight:600;color:#fff;opacity:.8;margin-top:6px}
 .ms_tbl input.form_im_txt{width:64px;min-width:0;padding:6px 8px;height:34px}
 .ms_tbl input[type=checkbox]{width:18px;height:18px}
+
+/* команда фотосы мен логотипі */
+.ft_hero{position:relative;border-radius:20px;overflow:hidden;margin-bottom:16px;aspect-ratio:16/7;min-height:220px;background:#111}
+.ft_hero_bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.ft_hero_c{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;gap:14px;padding:18px;background:linear-gradient(transparent,rgba(0,0,0,.75))}
+.ft_hero_logo{width:64px;height:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.ft_hero_t{flex:1;color:#fff;display:flex;flex-direction:column}
+.ft_hero_t b{font-size:22px;font-weight:900}
+.ft_hero_t span{font-size:13px;opacity:.85}
+.ft_hero_coach{display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;font-size:11px;font-weight:700}
+.ft_hero_coach img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.ft_logo_img{background:none;border:none;border-radius:0;object-fit:contain}
+@media (max-width:600px){.ft_hero{aspect-ratio:4/3}.ft_hero_logo{width:48px}.ft_hero_t b{font-size:18px}}

@@ -64,6 +64,15 @@
 			<div class="card"><div class="ds_nr"><i class="fal fa-futbol"></i><p>Бірінші құрам әлі құрылмаған</p><? if (core::is(['owner', 'admin'])): ?><div class="btn btn_sm ft_team" style="margin-top:12px">JAS FIRST TEAM құру</div><? endif ?></div></div>
 		<? else: ?>
 
+		<div class="ft_hero">
+			<img class="ft_hero_bg" src="/assets/img/first_team/team.jpg" alt="<?=h($team['name'])?>">
+			<div class="ft_hero_c">
+				<img class="ft_hero_logo" src="/assets/img/first_team/logo.png" alt="">
+				<div class="ft_hero_t"><b><?=h($team['name'])?></b><span>Шымкент · ЛЛФ</span></div>
+				<div class="ft_hero_coach"><img src="/assets/img/first_team/coach.jpg" alt=""><span>Бас бапкер</span></div>
+			</div>
+		</div>
+
 		<div class="dsh_k">
 			<div class="card dsh_ki dsh_ki_dk"><div class="dsh_ki_t"><i class="fal fa-trophy"></i>Ұпай</div><div class="dsh_ki_n"><?=$pts?></div><div class="dsh_ki_s"><?=$st['w']?> Ж · <?=$st['d']?> Т · <?=$st['l']?> Ұ</div></div>
 			<div class="card dsh_ki"><div class="dsh_ki_t"><i class="fal fa-futbol"></i>Голдар</div><div class="dsh_ki_n"><?=$st['gf']?>:<?=$st['ga']?></div><div class="dsh_ki_s">айырма <?=($st['gf']-$st['ga']>0?'+':'').($st['gf']-$st['ga'])?></div></div>
