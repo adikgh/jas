@@ -1,7 +1,8 @@
 <?php
 
-	// Деректер базасы.
-	// Құпия сөздер осы файлда емес — config/db.local.php ішінде (ол .gitignore-да).
+	// Деректер базасы (класс).
+	// Логин/пароль осы файлда емес — config/db.php ішінде (ол .gitignore-да, git оны ешқашан өзгертпейді).
+	// Үлгі: config/db.example.php
 	class db {
 
 		public static $host = 'localhost';
@@ -12,7 +13,8 @@
 
 		public function __construct() {
 			if (self::$connect) return;
-			if (is_file(__DIR__.'/db.local.php')) require __DIR__.'/db.local.php';
+			if (is_file(__DIR__.'/db.php')) require __DIR__.'/db.php';
+			if (is_file(__DIR__.'/db.local.php')) require __DIR__.'/db.local.php';   // ескі жергілікті баптау
 			if (getenv('JAS_DB')) self::$name = getenv('JAS_DB');   // тесттер үшін
 			mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 			try {

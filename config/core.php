@@ -1,6 +1,6 @@
 <?php
 
-	require_once __DIR__.'/db.php';
+	require_once __DIR__.'/db.class.php';
 	require_once __DIR__.'/fun.php';
 	require_once __DIR__.'/t.php';
 	require_once __DIR__.'/academy.php';

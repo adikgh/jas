@@ -3,7 +3,7 @@
 	// sql/ ішіндегі файлдарды ретімен орындайды, орындалғанын `migrations` кестесіне жазады.
 	if (php_sapi_name() != 'cli') exit('cli only');
 
-	require __DIR__.'/../config/db.php';
+	require __DIR__.'/../config/db.class.php';
 	if (!empty($argv[1])) db::$name = $argv[1];       // php tools/migrate.php jas_test
 	new db;
 	if (!empty($argv[1])) { mysqli_select_db(db::$connect, $argv[1]); }

@@ -1,13 +1,13 @@
 <?php
 	// Тесттер: php tests/run.php
 	// Бөлек `jas_test` базасын тазалап, миграция + seed жасайды, содан кейін тексереді.
-	// Талап: MySQL-да jas_test базасы бар, config/db.local.php ішіндегі қолданушыға оған рұқсат бар.
+	// Талап: MySQL-да jas_test базасы бар, config/db.php ішіндегі қолданушыға оған рұқсат бар.
 	if (php_sapi_name() != 'cli') exit('cli only');
 	putenv('JAS_DB=jas_test');
 	$root = realpath(__DIR__.'/..');
 	$php = PHP_BINARY;
 
-	require $root.'/config/db.php';
+	require $root.'/config/db.class.php';
 	new db;
 
 	// --- база дайындау
@@ -142,7 +142,7 @@
 	$jar = null;
 	$r = http('GET', '/dashboard/', null, $jar);
 	ok('кірмеген адам → /sign/', $r['code'] == 302 && strpos($r['head'], '/sign/') !== false);
-	ok('config/ браузерден жабық', http('GET', '/config/db.php')['code'] == 403);
+	ok('config/ браузерден жабық', http('GET', '/config/db.class.php')['code'] == 403);
 	list($b) = login('87000000002', 'wrong-pass');
 	ok('қате құпия сөз', $b == 'none');
 	$jar = null;

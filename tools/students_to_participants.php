@@ -5,7 +5,7 @@
 	// Ескі кесте ӨШІРІЛМЕЙДІ: көшірілгеннен кейін `students_legacy` деп қайта аталады.
 	// Бағандар әртүрлі болса, төмендегі $map-ты өзгертіңіз (participants баған => students баған).
 	if (php_sapi_name() != 'cli') exit('cli only');
-	require __DIR__.'/../config/db.php';
+	require __DIR__.'/../config/db.class.php';
 	new db;
 
 	$run = in_array('--run', $argv);

@@ -36,7 +36,7 @@ Master prompt-та Next.js + PostgreSQL жазылған. Жоба иесі он
    ▼
 Apache + PHP 7.4/8.x  (OSPanel / хостинг)
    ├─ config/core.php   сессия, auth, рөлдер, CSRF, $site, $lang
-   ├─ config/db.php     mysqli prepared statements, db::tx()
+   ├─ config/db.class.php  mysqli prepared statements, db::tx()
    ├─ config/fun.php    scope(), қарыз, жас, туған күн, audit, upload
    ├─ <модуль>/index.php  бет (сервер рендер)
    └─ <модуль>/get.php    әрекеттер (POST, JSON)
@@ -164,7 +164,7 @@ SQL: `fun::debt_sql()`.
 ```
 jas.c/
 ├─ index.php, exit.php, 404.php, .htaccess
-├─ config/   core.php db.php fun.php t.php db.local.example.php
+├─ config/   core.php db.class.php fun.php t.php db.example.php (db.php — .gitignore)
 ├─ block/    head header menu footer modal pagination 403
 ├─ sign/     index.php get.php
 ├─ dashboard/index.php

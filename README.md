@@ -17,7 +17,7 @@ PHP + MySQL, besb.c стилінде. Архитектура, ERD, API: [docs/AR
    ```sql
    CREATE DATABASE jas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    ```
-3. `config/db.local.example.php` → `config/db.local.php` деп көшіріп, логин/пароль жазыңыз.
+3. `config/db.example.php` → `config/db.php` деп көшіріп, логин/пароль жазыңыз.
 4. OSPanel консолінде:
    ```
    cd D:\OSPanel 5.4\domains\platform\jas.c
