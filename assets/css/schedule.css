@@ -1,0 +1,31 @@
+/* schedule */
+.sch_top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sch_nav{display:flex;gap:6px}
+.sch_top .tab_i{display:inline-block}
+.sch_w{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+@media(max-width:1100px){.sch_w{grid-template-columns:1fr}}
+.sch_d{background:var(--wh);border-radius:16px;padding:12px;min-height:160px;box-shadow:var(--bx1)}
+@media(max-width:1100px){.sch_d{min-height:0}}
+.sch_d_today{outline:2px solid var(--gold)}
+.sch_dh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.sch_dh b{font-weight:900}
+.sch_dh span{font-size:12px;color:var(--bl5);font-weight:700}
+.sch_s{display:block;padding:10px;border-radius:12px;margin-bottom:8px;background:var(--bl05);border-left:4px solid var(--bl3);cursor:default;color:var(--bl)}
+.sch_s[data-sess]{cursor:pointer}
+.sch_s b{display:block;font-size:13px;font-weight:900}
+.sch_s span{display:block;font-size:12px;font-weight:600;margin-top:2px;color:var(--bl7)}
+.sch_s_kids{background:rgba(14,107,58,.08);border-color:var(--green)}
+.sch_s_adult{background:rgba(201,162,39,.12);border-color:var(--gold)}
+.sch_s_match{background:var(--dk);border-color:var(--gold);color:var(--wh)}
+.sch_s_match span, .sch_s_match b{color:var(--wh)}
+.sch_s_x{opacity:.55;border-color:var(--err)}
+.sch_s_x b{text-decoration:line-through}
+.sch_tag{font-style:normal;font-size:10px;padding:1px 6px;border-radius:6px;background:var(--wh);margin-left:4px;font-weight:800}
+.sch_e{color:var(--bl3);font-size:13px;text-align:center;padding:10px}
+.sch_m{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.sch_mh{font-size:12px;font-weight:800;color:var(--bl5);text-align:center;padding:4px}
+.sch_mc{background:var(--wh);border-radius:12px;min-height:96px;padding:8px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--bx1);overflow:hidden}
+.sch_mc_e{background:none;box-shadow:none}
+.sch_mc b{font-size:13px;font-weight:900}
+.sch_mi{display:block;font-style:normal;font-size:11px;font-weight:700;padding:2px 5px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--bl05)}
+@media(max-width:600px){.sch_mc{min-height:56px;padding:5px}.sch_mi{font-size:0;height:6px;padding:0}}

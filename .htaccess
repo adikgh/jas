@@ -1,0 +1,8 @@
+AddDefaultCharset utf-8
+ErrorDocument 404 /
+Options -Indexes
+
+# config, sql, tests, tools, docs — браузерден ашылмайды
+RewriteEngine On
+RewriteRule ^(config|sql|tests|tools|docs)(/|$) - [F,L]
+RewriteRule (^|/)\.git - [F,L]

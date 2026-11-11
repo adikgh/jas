@@ -1,0 +1,14 @@
+.ft_next{display:flex;flex-direction:column;gap:10px;margin-top:16px;background:var(--dk);color:#fff}
+.ft_next small{opacity:.75}
+.ft_vs{display:flex;align-items:center;justify-content:center;gap:18px;font-size:22px}
+.ft_vs em{font-style:normal;background:var(--gold);color:var(--dk);border-radius:10px;padding:4px 12px;font-size:16px;font-weight:800}
+.ft_score{background:var(--dk);color:#fff;text-align:center}
+.ft_score_t{font-size:13px;opacity:.75}
+.ft_score_c{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin:18px 0}
+.ft_score_c b{display:block;margin-top:8px;font-size:15px}
+.ft_logo{width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto;border:3px solid var(--gold)}
+.ft_logo_o{background:#2a332e;border-color:#555}
+.ft_score_n{font-size:40px;font-weight:900;color:var(--gold);line-height:1}
+.ft_score_n span{display:block;font-size:12px;font-weight:600;color:#fff;opacity:.8;margin-top:6px}
+.ms_tbl input.form_im_txt{width:64px;min-width:0;padding:6px 8px;height:34px}
+.ms_tbl input[type=checkbox]{width:18px;height:18px}
