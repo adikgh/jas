@@ -22,7 +22,7 @@
 				<div class="usign_logo_t">ACADEMY</div>
 			</div>
 			<div class="usign_head">
-				<h3 class="usign_h">Платформаға кіру</h3>
+				<h3 class="usign_h"><?=(core::$portal ? h(core::$portals[core::$portal]['name']).' · кіру' : 'Платформаға кіру')?></h3>
 				<p>JAS KIDS · JAS ADULT · FIRST TEAM</p>
 			</div>
 

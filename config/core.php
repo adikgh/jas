@@ -14,9 +14,20 @@
 		// рөлдердің маңыздылық реті
 		public static $role_order = ['owner', 'admin', 'coach', 'parent', 'participant'];
 
+		// Домен бойынша бөлу (алиас): admin.сайт, coach.сайт, my.сайт.
+		// Префикссіз негізгі домен — бәріне ашық (бұрынғыдай).
+		public static $portals = [
+			'admin' => ['name' => 'Әкімшілік', 'roles' => ['owner', 'admin']],
+			'coach' => ['name' => 'Бапкер', 'roles' => ['coach']],
+			'my'    => ['name' => 'Ата-ана және қатысушы', 'roles' => ['parent', 'participant']],
+		];
+		public static $portal = '';      // ағымдағы портал ('' = негізгі)
+		public static $base_host = '';   // префикссіз домен
+
 		public function __construct() {
 			new db; new fun; new t;
 			date_default_timezone_set('Asia/Almaty');
+			self::portal_detect();
 			if (php_sapi_name() != 'cli') {
 				session_name('jas');
 				session_set_cookie_params([
@@ -40,12 +51,32 @@
 
 			$org_id = (int) @$_SESSION['org'];
 			$roles = array_column(db::all("select role from memberships where user_id = ? and organization_id = ? and active = 1", [(int) $u['id'], $org_id]), 'role');
+			if (self::$portal) $roles = array_values(array_intersect($roles, self::$portals[self::$portal]['roles']));
 			if (!$roles) { $this->user_unset(); return; }
 
 			self::$user_data = $u;
 			self::$org_id = $org_id;
 			self::$roles = $roles;
 			foreach (self::$role_order as $r) if (in_array($r, $roles)) { self::$role = $r; break; }
+		}
+
+		// хост атауынан порталды анықтау: coach.jas.c -> coach
+		public static function portal_detect() {
+			$host = strtolower(preg_replace('/:\d+$/', '', (string) @$_SERVER['HTTP_HOST']));
+			$first = strstr($host, '.', true);
+			if ($first !== false && isset(self::$portals[$first])) { self::$portal = $first; self::$base_host = substr($host, strlen($first) + 1); }
+			else { self::$portal = ''; self::$base_host = $host; }
+		}
+
+		// пайдаланушы рөлдеріне сай портал (бірнеше болса — ең жоғарғысы)
+		public static function portal_for($roles) {
+			foreach (self::$role_order as $r) if (in_array($r, $roles)) foreach (self::$portals as $k => $p) if (in_array($r, $p['roles'])) return $k;
+			return '';
+		}
+		public static function portal_url($portal, $path = '/') {
+			$https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
+			$port = isset($_SERVER['SERVER_PORT']) && !in_array((int) $_SERVER['SERVER_PORT'], [80, 443]) ? ':'.(int) $_SERVER['SERVER_PORT'] : '';
+			return ($https ? 'https' : 'http').'://'.($portal ? $portal.'.' : '').self::$base_host.$port.$path;
 		}
 
 		// кіргеннен кейін

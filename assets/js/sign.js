@@ -19,6 +19,7 @@ $(document).ready(function() {
 				success: function(data){
 					btn.removeClass('btn_ds')
 					if (data == 'yes') location.href = '/'
+					else if (data.indexOf('portal:') === 0) { mess('Сіз басқа бөлімнен кіресіз. Бағыттап жатырмыз...'); setTimeout(function(){ location.href = data.substr(7) }, 1200) }
 					else if (data == 'limit') mess('Тым көп әрекет. 15 минуттан кейін қайталаңыз')
 					else mess('Нөмір немесе құпия сөз қате')
 				},
