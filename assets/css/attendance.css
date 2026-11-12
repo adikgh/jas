@@ -10,7 +10,7 @@
 .at_b{display:flex;gap:6px;flex-shrink:0}
 .at_bi{width:58px;height:48px;border-radius:12px;border:1px solid #dfe5df;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;user-select:none;background:#fff;transition:.15s}
 .at_bi i{font-size:17px}
-.at_bi span{font-size:10px;font-weight:600;color:#6b766f}
+.at_bi span{font-size:10px;font-weight:600;color:#6e6e73}
 .at_bi_ds{opacity:.45;cursor:default}
 .at_bi_present.at_bi_act{background:var(--ok);border-color:var(--ok);color:#fff}
 .at_bi_absent.at_bi_act{background:var(--err);border-color:var(--err);color:#fff}

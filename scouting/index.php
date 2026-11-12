@@ -50,7 +50,7 @@
 		</div>
 
 		<? if ($camp): ?>
-			<p style="font-size:13px;color:#6b766f;margin:0 0 12px"><?=($camp['target']=='first_team'?'Бірінші құрамға':'Қалалық лигаға')?> · <?=($camp['start_date']?fun::date_short($camp['start_date']):'')?> – <?=($camp['end_date']?fun::date_short($camp['end_date']):'')?> · қабылданды <?=$camp['acc']?>
+			<p style="font-size:13px;color:#6e6e73;margin:0 0 12px"><?=($camp['target']=='first_team'?'Бірінші құрамға':'Қалалық лигаға')?> · <?=($camp['start_date']?fun::date_short($camp['start_date']):'')?> – <?=($camp['end_date']?fun::date_short($camp['end_date']):'')?> · қабылданды <?=$camp['acc']?>
 				<? if (core::is(['owner', 'admin'])): ?> · <a href="#" class="sc_close" data-id="<?=$cid?>" data-st="<?=($camp['status']=='open'?'closed':'open')?>"><?=($camp['status']=='open'?'Жабу':'Қайта ашу')?></a><? endif ?></p>
 			<div class="sc_k">
 				<? foreach ($st_name as $k => $v): ?>

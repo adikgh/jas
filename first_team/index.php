@@ -148,7 +148,7 @@
 					<div class="form_im form_im_f"><label class="form_l">Футболшы (JAS ADULT) <em>*</em></label><select class="form_im_txt" name="participant_id"><option value="">Таңдаңыз</option><? foreach ($cands as $p): ?><option value="<?=$p['id']?>"><?=h($p['last_name'].' '.$p['first_name'])?></option><? endforeach ?></select></div>
 					<div class="form_im"><label class="form_l">Нөмірі</label><input type="number" class="form_im_txt" name="number" min="1" max="99"></div>
 					<div class="form_im"><label class="form_l">Позиция</label><select class="form_im_txt" name="position"><option value="">—</option><? foreach (['gk', 'df', 'mf', 'fw'] as $k): ?><option value="<?=$k?>"><?=t::w($k)?></option><? endforeach ?></select></div>
-					<div class="form_im form_im_f"><p class="form_e" style="color:#6b766f">Рейтинг құрамға автоматты қоспайды — шешімді бапкер қабылдайды.</p></div>
+					<div class="form_im form_im_f"><p class="form_e" style="color:#6e6e73">Рейтинг құрамға автоматты қоспайды — шешімді бапкер қабылдайды.</p></div>
 				</form>
 				<div class="form_btns"><div class="btn btn_ghost pop_back">Болдырмау</div><div class="btn ra_save">Қосу</div></div>
 			</div>

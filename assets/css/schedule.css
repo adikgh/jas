@@ -14,8 +14,8 @@
 .sch_s[data-sess]{cursor:pointer}
 .sch_s b{display:block;font-size:13px;font-weight:900}
 .sch_s span{display:block;font-size:12px;font-weight:600;margin-top:2px;color:var(--bl7)}
-.sch_s_kids{background:rgba(14,107,58,.08);border-color:var(--green)}
-.sch_s_adult{background:rgba(201,162,39,.12);border-color:var(--gold)}
+.sch_s_kids{background:rgba(255,194,14,.14);border-color:var(--green)}
+.sch_s_adult{background:rgba(255,194,14,.12);border-color:var(--gold)}
 .sch_s_match{background:var(--dk);border-color:var(--gold);color:var(--wh)}
 .sch_s_match span, .sch_s_match b{color:var(--wh)}
 .sch_s_x{opacity:.55;border-color:var(--err)}

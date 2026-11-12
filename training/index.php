@@ -104,7 +104,7 @@
 					<? if ($l['video_key']): ?><a class="md_i" style="aspect-ratio:16/9;margin-bottom:12px" href="https://www.youtube.com/watch?v=<?=h($l['video_key'])?>" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/<?=h($l['video_key'])?>/hqdefault.jpg" alt="" loading="lazy"><i class="fal fa-play-circle md_play"></i></a><? endif ?>
 					<div class="card_h"><h6><?=h($l['title'])?></h6><span class="bdg"><?=$lvl[$l['level']]?></span></div>
 					<p style="font-size:13px;color:#4a544e"><?=h($l['description'])?></p>
-					<p style="font-size:12px;color:#6b766f;margin-top:8px"><?=$cat[$l['category']]?><?=($l['duration_min']?' · '.$l['duration_min'].' мин':'')?><?=($l['reps']?' · '.h($l['reps']):'')?></p>
+					<p style="font-size:12px;color:#6e6e73;margin-top:8px"><?=$cat[$l['category']]?><?=($l['duration_min']?' · '.$l['duration_min'].' мин':'')?><?=($l['reps']?' · '.h($l['reps']):'')?></p>
 					<? if ($l['coach_tip']): ?><p style="font-size:12px;margin-top:8px">💡 <?=h($l['coach_tip'])?></p><? endif ?>
 				</div>
 			<? endforeach ?>

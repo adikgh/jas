@@ -33,7 +33,7 @@
 				<? else: ?>
 					<a class="btn" href="<?=h($main['url'])?>" target="_blank" rel="noopener"><i class="fal fa-external-link"></i><span><?=$pl[$main['platform']]?>-да ашу</span></a>
 				<? endif ?>
-				<p style="font-size:13px;color:#6b766f;margin-top:10px"><?=fun::date_kz(substr($main['starts_at'], 0, 10))?> · <?=date('H:i', strtotime($main['starts_at']))?><?=($main['opp']?' · JAS — '.h($main['opp']):'')?></p>
+				<p style="font-size:13px;color:#6e6e73;margin-top:10px"><?=fun::date_kz(substr($main['starts_at'], 0, 10))?> · <?=date('H:i', strtotime($main['starts_at']))?><?=($main['opp']?' · JAS — '.h($main['opp']):'')?></p>
 			</div>
 		<? endif ?>
 

@@ -3,7 +3,7 @@
 <meta name="csrf" content="<?=core::csrf()?>">
 
 <title><?=h($menu_title)?> | <?=h($site['name'])?></title>
-<meta name="theme-color" content="#0a0f0c">
+<meta name="theme-color" content="#0b0b0c">
 <meta name="robots" content="noindex, nofollow">
 
 <!-- icon -->

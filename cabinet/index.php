@@ -78,9 +78,9 @@
 					<? if ($p['debt'] > 0): ?><div class="li"><div class="li_i"><i class="fal fa-wallet"></i></div><div class="li_c"><b class="cl_err">Қарыз: <?=fun::money($p['debt'])?></b><span>Kaspi арқылы төлеп, чекті әкімшіге жіберіңіз</span></div></div><? endif ?>
 
 					<div class="dsh_k" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px">
-						<a class="card dsh_ki" href="/participants/item.php?id=<?=$p['id']?>#attendance" style="background:#f3f5f3"><div class="dsh_ki_t">Қатысу 30 к.</div><div class="dsh_ki_n" style="font-size:22px"><?=($p['att']!==null?$p['att'].'%':'—')?></div></a>
-						<a class="card dsh_ki" href="/rating/" style="background:#f3f5f3"><div class="dsh_ki_t">Рейтинг</div><div class="dsh_ki_n" style="font-size:22px"><?=($p['place']?'#'.$p['place']:'—')?></div><div class="dsh_ki_s"><?=$p['pts']?> ұпай</div></a>
-						<a class="card dsh_ki" href="/progress/item.php?id=<?=$p['id']?>" style="background:#f3f5f3"><div class="dsh_ki_t">Баға</div><div class="dsh_ki_n" style="font-size:22px"><?=($p['score'] ?: '—')?></div></a>
+						<a class="card dsh_ki" href="/participants/item.php?id=<?=$p['id']?>#attendance" style="background:#f5f5f3"><div class="dsh_ki_t">Қатысу 30 к.</div><div class="dsh_ki_n" style="font-size:22px"><?=($p['att']!==null?$p['att'].'%':'—')?></div></a>
+						<a class="card dsh_ki" href="/rating/" style="background:#f5f5f3"><div class="dsh_ki_t">Рейтинг</div><div class="dsh_ki_n" style="font-size:22px"><?=($p['place']?'#'.$p['place']:'—')?></div><div class="dsh_ki_s"><?=$p['pts']?> ұпай</div></a>
+						<a class="card dsh_ki" href="/progress/item.php?id=<?=$p['id']?>" style="background:#f5f5f3"><div class="dsh_ki_t">Баға</div><div class="dsh_ki_n" style="font-size:22px"><?=($p['score'] ?: '—')?></div></a>
 					</div>
 					<? if ($p['tasks']): ?><a class="li" href="/training/"><div class="li_i"><i class="fal fa-dumbbell"></i></div><div class="li_c"><b><?=$p['tasks']?> үй тапсырмасы</b><span>Training Hub</span></div><div class="li_r"><i class="fal fa-angle-right"></i></div></a><? endif ?>
 					<? if ($p['match']): ?><a class="li" href="/first_team/match.php?id=<?=$p['match']['id']?>"><div class="li_i"><i class="fal fa-futbol"></i></div><div class="li_c"><b>JAS — <?=h($p['match']['opp'])?></b><span><?=date('d.m H:i', strtotime($p['match']['match_at']))?> · <?=h($p['match']['venue'])?></span></div></a><? endif ?>

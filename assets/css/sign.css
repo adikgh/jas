@@ -10,8 +10,8 @@ body{background:var(--dk)}
 	align-items: center;
 	padding: 20px;
 	background:
-		radial-gradient(circle at 20% 10%, rgba(14,107,58,.55), transparent 55%),
-		radial-gradient(circle at 90% 90%, rgba(201,162,39,.25), transparent 50%),
+		radial-gradient(circle at 20% 10%, rgba(0,0,0,.55), transparent 55%),
+		radial-gradient(circle at 90% 90%, rgba(255,194,14,.25), transparent 50%),
 		var(--dk);
 }
 .usign_c{

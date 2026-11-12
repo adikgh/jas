@@ -7,7 +7,7 @@
 .ft_score_c{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin:18px 0}
 .ft_score_c b{display:block;margin-top:8px;font-size:15px}
 .ft_logo{width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto;border:3px solid var(--gold)}
-.ft_logo_o{background:#2a332e;border-color:#555}
+.ft_logo_o{background:#2c2c30;border-color:#555}
 .ft_score_n{font-size:40px;font-weight:900;color:var(--gold);line-height:1}
 .ft_score_n span{display:block;font-size:12px;font-weight:600;color:#fff;opacity:.8;margin-top:6px}
 .ms_tbl input.form_im_txt{width:64px;min-width:0;padding:6px 8px;height:34px}

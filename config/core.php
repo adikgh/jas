@@ -157,7 +157,7 @@
 
 	// setting
 	$site = $org_id ? db::row("select * from organizations where id = ?", [$org_id]) : db::row("select * from organizations order by id limit 1");
-	$ver = 1.004;
+	$ver = 1.005;
 	$site_set = [
 		'header' => true,
 		'menu' => true,

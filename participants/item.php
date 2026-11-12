@@ -263,7 +263,7 @@
 						<div class="card_h"><h6>Марапаттар</h6></div>
 						<? foreach ($achs as $a): ?>
 							<div class="li">
-								<div class="li_i" style="background:var(--cm1);color:#8a6d10"><i class="fal <?=h($a['icon'])?>"></i></div>
+								<div class="li_i" style="background:var(--cm1);color:#7a5600"><i class="fal <?=h($a['icon'])?>"></i></div>
 								<div class="li_c"><b><?=h($a['name'])?></b><span><?=fun::date_short($a['awarded_at'])?><?=($a['comment']?' · '.h($a['comment']):'')?></span></div>
 							</div>
 						<? endforeach ?>

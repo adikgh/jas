@@ -129,7 +129,7 @@
 					<? foreach ($plans as $pl): if (!$pl['active']) continue; ?><option value="<?=$pl['id']?>" data-dir="<?=$pl['direction']?>" data-price="<?=(float) $pl['price']?>"><?=h($pl['name'])?> · <?=fun::money($pl['price'])?> · <?=($pl['sessions_limit'] ?: '∞')?> жаттығу</option><? endforeach ?>
 				</select></div>
 				<div class="form_im form_im_f"><label class="form_l">Жеңілдік, ₸</label><input type="number" class="form_im_txt" name="discount" min="0" value="0"></div>
-				<div class="form_im form_im_f"><p class="form_e" style="color:#6b766f">Абонемент алғашқы расталған төлем күнінен басталады және 1 күнтізбелік айға жарамды.</p></div>
+				<div class="form_im form_im_f"><p class="form_e" style="color:#6e6e73">Абонемент алғашқы расталған төлем күнінен басталады және 1 күнтізбелік айға жарамды.</p></div>
 			</form>
 			<div class="form_btns"><div class="btn btn_ghost pop_back">Болдырмау</div><div class="btn ss_save">Сату</div></div>
 		</div>
