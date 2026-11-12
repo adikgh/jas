@@ -51,7 +51,7 @@
 	<div class="bl_c">
 
 		<div class="head_c">
-			<div><h4><?=h($team ? $team['name'] : 'First Team')?></h4><p>JAS FIRST TEAM · ЛЛФ · матчтар абонемент лимитін азайтпайды</p></div>
+			<div><h4><?=h($team ? $team['name'] : 'First Team')?></h4><p>ZHASS ACADEMY · ЛЛФ · матчтар абонемент лимитін азайтпайды</p></div>
 			<? if ($staff && $team): ?>
 				<div style="display:flex;gap:8px;flex-wrap:wrap">
 					<div class="btn btn_sm btn_ghost" data-pop="ros_add"><i class="fal fa-user-plus"></i><span>Құрамға қосу</span></div>
@@ -61,7 +61,7 @@
 		</div>
 
 		<? if (!$team): ?>
-			<div class="card"><div class="ds_nr"><i class="fal fa-futbol"></i><p>Бірінші құрам әлі құрылмаған</p><? if (core::is(['owner', 'admin'])): ?><div class="btn btn_sm ft_team" style="margin-top:12px">JAS FIRST TEAM құру</div><? endif ?></div></div>
+			<div class="card"><div class="ds_nr"><i class="fal fa-futbol"></i><p>Бірінші құрам әлі құрылмаған</p><? if (core::is(['owner', 'admin'])): ?><div class="btn btn_sm ft_team" style="margin-top:12px">ZHASS ACADEMY құру</div><? endif ?></div></div>
 		<? else: ?>
 
 		<div class="ft_hero">
@@ -83,7 +83,7 @@
 		<? if ($next): ?>
 			<a class="card ft_next" href="/first_team/match.php?id=<?=$next['id']?>">
 				<div><span class="bdg bdg_warn">Келесі матч</span> <small><?=h($next['comp_name'])?> · <?=h($next['round'])?></small></div>
-				<div class="ft_vs"><b>JAS</b><em><?=date('H:i', strtotime($next['match_at']))?></em><b><?=h($next['opp'])?></b></div>
+				<div class="ft_vs"><b>ZHASS</b><em><?=date('H:i', strtotime($next['match_at']))?></em><b><?=h($next['opp'])?></b></div>
 				<div><small><?=fun::date_kz(substr($next['match_at'], 0, 10))?> · <?=h($next['venue'])?> · <?=($next['is_home']?'үйде':'қонақта')?></small></div>
 			</a>
 		<? endif ?>
@@ -94,7 +94,7 @@
 				<? foreach ($matches as $m): $k = $m['status'] == 'finished' ? ($m['goals_for'] > $m['goals_against'] ? 'w' : ($m['goals_for'] == $m['goals_against'] ? 'd' : 'l')) : ''; ?>
 					<a class="li" href="/first_team/match.php?id=<?=$m['id']?>" style="<?=($m['status']=='cancelled'?'opacity:.5':'')?>">
 						<div class="li_i"><?=date('d.m', strtotime($m['match_at']))?></div>
-						<div class="li_c"><b>JAS — <?=h($m['opp'])?></b><span><?=h($m['comp_name'])?> · <?=h($m['round'])?> · <?=($m['is_home']?'үйде':'қонақта')?></span></div>
+						<div class="li_c"><b>ZHASS — <?=h($m['opp'])?></b><span><?=h($m['comp_name'])?> · <?=h($m['round'])?> · <?=($m['is_home']?'үйде':'қонақта')?></span></div>
 						<div class="li_r">
 							<? if ($m['status'] == 'finished'): ?><span class="bdg <?=$fl[$k][1]?>"><?=(int) $m['goals_for']?>:<?=(int) $m['goals_against']?></span>
 							<? elseif ($m['status'] == 'cancelled'): ?><span class="bdg">болмады</span>
@@ -145,7 +145,7 @@
 			<div class="pop_bl_c">
 				<div class="pop_h"><h5>Құрамға қосу</h5><div class="pop_x pop_back"><i class="fal fa-times"></i></div></div>
 				<form class="form_g ra_form" onsubmit="return false">
-					<div class="form_im form_im_f"><label class="form_l">Футболшы (JAS ADULT) <em>*</em></label><select class="form_im_txt" name="participant_id"><option value="">Таңдаңыз</option><? foreach ($cands as $p): ?><option value="<?=$p['id']?>"><?=h($p['last_name'].' '.$p['first_name'])?></option><? endforeach ?></select></div>
+					<div class="form_im form_im_f"><label class="form_l">Футболшы (ZHASS ADULT) <em>*</em></label><select class="form_im_txt" name="participant_id"><option value="">Таңдаңыз</option><? foreach ($cands as $p): ?><option value="<?=$p['id']?>"><?=h($p['last_name'].' '.$p['first_name'])?></option><? endforeach ?></select></div>
 					<div class="form_im"><label class="form_l">Нөмірі</label><input type="number" class="form_im_txt" name="number" min="1" max="99"></div>
 					<div class="form_im"><label class="form_l">Позиция</label><select class="form_im_txt" name="position"><option value="">—</option><? foreach (['gk', 'df', 'mf', 'fw'] as $k): ?><option value="<?=$k?>"><?=t::w($k)?></option><? endforeach ?></select></div>
 					<div class="form_im form_im_f"><p class="form_e" style="color:#6e6e73">Рейтинг құрамға автоматты қоспайды — шешімді бапкер қабылдайды.</p></div>
@@ -164,7 +164,7 @@
 					<div class="form_im form_im_f ma_opp_new" style="display:none"><input type="text" class="form_im_txt" name="opponent_name" maxlength="120" placeholder="Команда атауы"></div>
 					<div class="form_im"><label class="form_l">Тур</label><input type="text" class="form_im_txt" name="round" maxlength="30" placeholder="6-тур"></div>
 					<div class="form_im"><label class="form_l">Күні, уақыты <em>*</em></label><input type="datetime-local" class="form_im_txt" name="match_at"></div>
-					<div class="form_im"><label class="form_l">Алаң</label><input type="text" class="form_im_txt" name="venue" maxlength="160" placeholder="JAS Arena"></div>
+					<div class="form_im"><label class="form_l">Алаң</label><input type="text" class="form_im_txt" name="venue" maxlength="160" placeholder="ZHASS Arena"></div>
 					<div class="form_im"><label class="form_l">Орны</label><select class="form_im_txt" name="is_home"><option value="1">Үйде</option><option value="0">Қонақта</option></select></div>
 				</form>
 				<div class="form_btns"><div class="btn btn_ghost pop_back">Болдырмау</div><div class="btn ma_save">Қосу</div></div>

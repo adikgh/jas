@@ -3,11 +3,12 @@
 <meta name="csrf" content="<?=core::csrf()?>">
 
 <title><?=h($menu_title)?> | <?=h($site['name'])?></title>
-<meta name="theme-color" content="#0b0b0c">
+<meta name="theme-color" content="#0a1b36">
 <meta name="robots" content="noindex, nofollow">
 
 <!-- icon -->
-<link rel="icon" href="/assets/img/logo/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/first_team/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/first_team/logo.png">
 
 <!-- apple -->
 <meta name="application-name" lang="<?=$lang?>" content="<?=h($site['name'])?>">

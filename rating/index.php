@@ -53,7 +53,7 @@
 
 	// site setting
 	$menu_name = 'rating';
-	$menu_title = 'JAS Rating';
+	$menu_title = 'ZHASS Rating';
 	$css = ['schedule', 'rating'];
 	$js = ['rating'];
 ?>
@@ -62,7 +62,7 @@
 	<div class="bl_c">
 
 		<div class="head_c">
-			<div><h4>JAS Rating</h4><p><?=t::w($scope)?> · <?=$type_name[$type]?><?=($type!='all'?' · '.fun::$months[(int) substr($ym, 5)].' '.substr($ym, 0, 4):'')?></p></div>
+			<div><h4>ZHASS Rating</h4><p><?=t::w($scope)?> · <?=$type_name[$type]?><?=($type!='all'?' · '.fun::$months[(int) substr($ym, 5)].' '.substr($ym, 0, 4):'')?></p></div>
 			<? if ($staff): ?>
 				<div style="display:flex;gap:8px;flex-wrap:wrap">
 					<div class="btn btn_sm btn_ghost" data-pop="rt_progress"><i class="fal fa-chart-line"></i><span>Прогресс +20</span></div>
@@ -73,8 +73,8 @@
 
 		<div class="sch_top">
 			<div class="tab" style="margin:0">
-				<a class="tab_i <?=($scope=='kids'?'tab_i_act':'')?>" href="<?=h($ql(['s' => 'kids']))?>">JAS KIDS</a>
-				<a class="tab_i <?=($scope=='adult'?'tab_i_act':'')?>" href="<?=h($ql(['s' => 'adult']))?>">JAS ADULT</a>
+				<a class="tab_i <?=($scope=='kids'?'tab_i_act':'')?>" href="<?=h($ql(['s' => 'kids']))?>">ZHASS KIDS</a>
+				<a class="tab_i <?=($scope=='adult'?'tab_i_act':'')?>" href="<?=h($ql(['s' => 'adult']))?>">ZHASS ADULT</a>
 			</div>
 			<div class="tab" style="margin:0">
 				<? foreach ($type_name as $k => $v): ?><a class="tab_i <?=($type==$k?'tab_i_act':'')?>" href="<?=h($ql(['t' => $k]))?>"><?=$v?></a><? endforeach ?>

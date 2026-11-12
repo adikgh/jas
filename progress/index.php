@@ -39,7 +39,7 @@
 		<? if ($staff): ?>
 			<form class="flt" method="get">
 				<div class="form_im"><input type="text" class="form_im_txt" name="q" value="<?=h($f_q)?>" placeholder="Аты-жөні"></div>
-				<div class="form_im"><select class="form_im_txt flt_auto" name="dir"><option value="">Барлық бағыт</option><option value="kids" <?=($f_dir=='kids'?'selected':'')?>>JAS KIDS</option><option value="adult" <?=($f_dir=='adult'?'selected':'')?>>JAS ADULT</option></select></div>
+				<div class="form_im"><select class="form_im_txt flt_auto" name="dir"><option value="">Барлық бағыт</option><option value="kids" <?=($f_dir=='kids'?'selected':'')?>>ZHASS KIDS</option><option value="adult" <?=($f_dir=='adult'?'selected':'')?>>ZHASS ADULT</option></select></div>
 			</form>
 		<? endif ?>
 

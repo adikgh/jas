@@ -12,13 +12,13 @@
 	if (isset($_GET['team_add'])) {
 		core::need(['owner', 'admin']);
 		if (team_get()) fun::json(['ok' => false, 'mess' => 'Бірінші құрам бар']);
-		$id = db::ins("insert into teams (organization_id, name, type) values (?, 'JAS FIRST TEAM', 'first_team')", [$org_id]);
+		$id = db::ins("insert into teams (organization_id, name, type) values (?, 'ZHASS ACADEMY', 'first_team')", [$org_id]);
 		fun::audit('create', 'teams', $id);
 		fun::json(['ok' => true]);
 	}
 
 
-	// құрамға қосу: тек JAS ADULT, шешімді бапкер қабылдайды
+	// құрамға қосу: тек ZHASS ADULT, шешімді бапкер қабылдайды
 	if (isset($_GET['roster_add'])) {
 		$t = team_get();
 		$p = db::row("select * from participants where id = ? and organization_id = ? and archived_at is null", [(int) fun::post('participant_id'), $org_id]);
@@ -26,7 +26,7 @@
 		$pos = fun::post('position');
 		if (!$t) fun::json(['ok' => false, 'mess' => 'Команда жоқ']);
 		if (!$p) fun::json(['ok' => false, 'mess' => 'Футболшыны таңдаңыз']);
-		if ($p['direction'] != 'adult') fun::json(['ok' => false, 'mess' => 'Бірінші құрамға тек JAS ADULT қатысушысы кіреді']);
+		if ($p['direction'] != 'adult') fun::json(['ok' => false, 'mess' => 'Бірінші құрамға тек ZHASS ADULT қатысушысы кіреді']);
 		if ($num !== null && ($num < 1 || $num > 99)) fun::json(['ok' => false, 'mess' => 'Нөмір 1–99']);
 		if ($pos !== '' && !in_array($pos, ['gk', 'df', 'mf', 'fw'], true)) fun::json(['ok' => false, 'mess' => 'Позиция қате']);
 		if (db::val("select id from team_rosters where team_id = ? and participant_id = ? and left_at is null", [(int) $t['id'], (int) $p['id']])) fun::json(['ok' => false, 'mess' => 'Құрамда бар']);

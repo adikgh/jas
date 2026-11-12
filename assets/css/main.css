@@ -1,11 +1,11 @@
 /* JAS ACADEMY — main */
 :root{
-	--dk: #0b0b0c;
-	--dk2: #151517;
-	--dk3: #232326;
+	--dk: #0a1b36;
+	--dk2: #10264a;
+	--dk3: #1a3460;
 	--gold: #ffc20e;
 	--blue: #0b4a8b;
-	--green: #141416;
+	--green: #0b3c7a;
 	--ok: #1a9e55;
 	--warn: #d48a00;
 	--err: #c62828;
@@ -345,3 +345,4 @@ input[type=checkbox]{-webkit-appearance:checkbox;appearance:auto;display:inline-
 .yt_w{position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;background:#000}
 .yt_w iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .cab_g{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.ub1_logo_img{width:40px;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}

@@ -14,8 +14,8 @@
 			'participant' => ['kz' => 'Қатысушы'],
 
 			// бағыттар
-			'kids' => ['kz' => 'JAS KIDS'],
-			'adult' => ['kz' => 'JAS ADULT'],
+			'kids' => ['kz' => 'ZHASS KIDS'],
+			'adult' => ['kz' => 'ZHASS ADULT'],
 			'first_team' => ['kz' => 'FIRST TEAM'],
 
 			// позиция

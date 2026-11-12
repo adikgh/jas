@@ -17,6 +17,7 @@
 	exec(escapeshellarg($php)." ".escapeshellarg("$root/tools/migrate.php")." jas_test", $o1, $rc1);
 	exec(escapeshellarg($php)." ".escapeshellarg("$root/tools/seed.php")." jas_test", $o2, $rc2);
 	require $root.'/config/core.php';
+	require $root.'/tournaments/lib.php';
 
 	$pass = 0; $fail = 0;
 	function ok($name, $cond) {
@@ -383,6 +384,38 @@
 	ok('есеп CSV экспорты (Excel BOM)', $csv['code'] == 200 && substr($csv['body'], 0, 3) == "\xEF\xBB\xBF");
 	$pg = http('GET', '/reports/', null, $admin);
 	ok('есептер беті ашылады', $pg['code'] == 200 && strpos($pg['body'], 'Ай сайынғы кіріс') !== false);
+
+
+	// турнирлер
+	$r = json_decode(http('POST', '/tournaments/get.php?add', ['name' => 'Тест кубогы', 'kind' => 'sunday', 'direction' => 'adult', 'starts_at' => date('Y-m-d\TH:i', strtotime('+3 day')), 'venue' => 'Манеж', 'entry_fee' => 10000, 'max_teams' => 3], $coach)['body'], true);
+	ok('бапкер турнир құрды', $r && $r['ok']);
+	$trid = $r ? (int) $r['id'] : 0;
+	$code = db::val("select join_code from tournaments where id = ?", [$trid]);
+	ok('ата-ана турнир құра алмайды (403)', http('POST', '/tournaments/get.php?add', ['name' => 'X'], $parent)['code'] == 403);
+	ok('ата-ана турнирді көреді', http('GET', "/tournaments/item.php?id=$trid", null, $parent)['code'] == 200);
+	$r1 = json_decode(http('POST', '/tournaments/get.php?team_add', ['id' => $trid, 'name' => 'Алпамыс', 'captain' => 'Ерлан', 'phone' => '87011112233'], $coach)['body'], true);
+	$r2 = json_decode(http('POST', '/tournaments/get.php?team_add', ['id' => $trid, 'name' => 'Алпамыс'], $coach)['body'], true);
+	ok('команда қосылды, қайталама атау бөгеледі', $r1 && $r1['ok'] && $r2 && !$r2['ok']);
+	$pub = null;
+	$j = json_decode(http('POST', "/tournaments/join.php?join&c=$code", ['name' => 'Тұран', 'captain' => 'Азамат', 'phone' => '87019990011'], $pub)['body'], true);
+	ok('кірусіз сілтеме арқылы тіркелу', $j && $j['ok'] && db::val("select source from tournament_teams where tournament_id = ? and name = 'Тұран'", [$trid]) == 'public');
+	ok('тіркелген капитан CRM-ге өтінім болды', (bool) db::val("select id from leads where phone = '87019990011' and comment like 'Турнир:%'"));
+	$j = json_decode(http('POST', "/tournaments/join.php?join&c=bad0000000", ['name' => 'Y', 'captain' => 'Y', 'phone' => '87019990012'], $pub)['body'], true);
+	ok('қате сілтеме коды бөгеледі', $j && !$j['ok']);
+	$j = json_decode(http('POST', "/tournaments/join.php?join&c=$code", ['name' => 'Жетісу', 'captain' => 'Нұр', 'phone' => '87019990013'], $pub)['body'], true);
+	$j2 = json_decode(http('POST', "/tournaments/join.php?join&c=$code", ['name' => 'Сарыарқа', 'captain' => 'Нұр', 'phone' => '87019990014'], $pub)['body'], true);
+	ok('макс. команда саны толса тіркелу жабылады', $j && $j['ok'] && $j2 && !$j2['ok']);
+	$ids = array_column(db::all("select id from tournament_teams where tournament_id = ? order by id", [$trid]), 'id');
+	$g = json_decode(http('POST', '/tournaments/get.php?game_add', ['id' => $trid, 'home_id' => $ids[0], 'away_id' => $ids[1], 'stage' => 'Топ'], $coach)['body'], true);
+	ok('ойын қосылды, турнир басталды', $g && $g['ok'] && db::val("select status from tournaments where id = ?", [$trid]) == 'running');
+	$s = json_decode(http('POST', '/tournaments/get.php?game_score', ['id' => $trid, 'game_id' => $g['id'], 'home_goals' => 2, 'away_goals' => 0], $coach)['body'], true);
+	$tb = tour_table($trid);
+	ok('есеп → кесте: жеңімпазда 3 ұпай', $s && $s['ok'] && $tb[0]['id'] == $ids[0] && $tb[0]['pts'] == 3 && $tb[0]['gf'] == 2);
+	$other = (int) db::ins("insert into organizations (name, slug) values ('Басқа', 'other_t')");
+	$otr = db::ins("insert into tournaments (organization_id, name, starts_at, join_code) values (?, 'Бөтен', now(), 'ffffffffff')", [$other]);
+	ok('басқа ұйымның турниріне қол жетпейді', !json_decode(http('POST', '/tournaments/get.php?status', ['id' => $otr, 'status' => 'cancelled'], $coach)['body'], true)['ok'] && http('GET', "/tournaments/item.php?id=$otr", null, $coach)['code'] == 404);
+	$a = json_decode(http('POST', '/tournaments/get.php?award_add', ['id' => $trid, 'title' => 'Үздік ойыншы', 'person' => 'Азамат'], $coach)['body'], true);
+	ok('марапат қосылды', $a && $a['ok']);
 
 
 	for ($i = 0; $i < 5; $i++) login('87000000004', 'bad-pass-'.$i);

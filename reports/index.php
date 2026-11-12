@@ -4,7 +4,7 @@
 
 	$year = isset($_GET['y']) ? max(2020, min(2100, (int) $_GET['y'])) : (int) date('Y');
 	$y_start = "$year-01-01"; $y_end = "$year-12-31";
-	$dir_name = ['kids' => 'JAS KIDS', 'adult' => 'JAS ADULT'];
+	$dir_name = ['kids' => 'ZHASS KIDS', 'adult' => 'ZHASS ADULT'];
 	$met_name = ['kaspi' => 'Kaspi', 'kaspi_red' => 'Kaspi RED', 'bank' => 'Банк', 'cash' => 'Қолма-қол'];
 	$cat_name = ['rent' => 'Жалдау', 'salary' => 'Жалақы', 'equipment' => 'Құрал-жабдық', 'marketing' => 'Маркетинг', 'tournament' => 'Турнир', 'other' => 'Басқа'];
 	$src_name = ['instagram' => 'Instagram', 'tiktok' => 'TikTok', 'threads' => 'Threads', 'whatsapp' => 'WhatsApp', 'referral' => 'Таныс арқылы', 'walk_in' => 'Өзі келді', 'other' => 'Басқа'];

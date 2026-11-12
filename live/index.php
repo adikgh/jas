@@ -14,14 +14,14 @@
 
 	// site setting
 	$menu_name = 'live';
-	$menu_title = 'JAS Live';
+	$menu_title = 'ZHASS Live';
 	$js = ['live'];
 ?>
 <? include "../block/header.php"; ?>
 
 	<div class="bl_c">
 		<div class="head_c">
-			<div><h4>JAS Live</h4><p>Матчтар мен шаралардың тікелей эфирі</p></div>
+			<div><h4>ZHASS Live</h4><p>Матчтар мен шаралардың тікелей эфирі</p></div>
 			<? if ($staff): ?><div class="btn btn_sm" data-pop="lv_add"><i class="fal fa-plus"></i><span>Эфир қосу</span></div><? endif ?>
 		</div>
 
@@ -33,7 +33,7 @@
 				<? else: ?>
 					<a class="btn" href="<?=h($main['url'])?>" target="_blank" rel="noopener"><i class="fal fa-external-link"></i><span><?=$pl[$main['platform']]?>-да ашу</span></a>
 				<? endif ?>
-				<p style="font-size:13px;color:#6e6e73;margin-top:10px"><?=fun::date_kz(substr($main['starts_at'], 0, 10))?> · <?=date('H:i', strtotime($main['starts_at']))?><?=($main['opp']?' · JAS — '.h($main['opp']):'')?></p>
+				<p style="font-size:13px;color:#6e6e73;margin-top:10px"><?=fun::date_kz(substr($main['starts_at'], 0, 10))?> · <?=date('H:i', strtotime($main['starts_at']))?><?=($main['opp']?' · ZHASS — '.h($main['opp']):'')?></p>
 			</div>
 		<? endif ?>
 
@@ -61,7 +61,7 @@
 			<div class="pop_bl_c">
 				<div class="pop_h"><h5>Жаңа эфир</h5><div class="pop_x pop_back"><i class="fal fa-times"></i></div></div>
 				<form class="form_g lv_form" onsubmit="return false">
-					<div class="form_im form_im_f"><label class="form_l">Атауы</label><input type="text" class="form_im_txt" name="title" maxlength="160" placeholder="ЛЛФ: JAS — ..."></div>
+					<div class="form_im form_im_f"><label class="form_l">Атауы</label><input type="text" class="form_im_txt" name="title" maxlength="160" placeholder="ЛЛФ: ZHASS — ..."></div>
 					<div class="form_im form_im_f"><label class="form_l">Сілтеме (YouTube, Instagram, TikTok)</label><input type="text" class="form_im_txt" name="url" placeholder="https://youtube.com/live/..."></div>
 					<div class="form_im"><label class="form_l">Басталуы</label><input type="datetime-local" class="form_im_txt" name="starts_at"></div>
 					<div class="form_im"><label class="form_l">Матч</label><select class="form_im_txt" name="match_id"><option value="">—</option><? foreach ($matches as $m): ?><option value="<?=$m['id']?>"><?=date('d.m H:i', strtotime($m['match_at']))?> · <?=h($m['opp'])?></option><? endforeach ?></select></div>

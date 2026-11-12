@@ -71,7 +71,7 @@
 		<div class="head_c">
 			<div>
 				<h4>Қатысушылар</h4>
-				<p>JAS KIDS · JAS ADULT · FIRST TEAM</p>
+				<p>ZHASS KIDS · ZHASS ADULT · FIRST TEAM</p>
 			</div>
 			<? if ($fin): ?>
 				<div class="btn btn_sm" data-pop="part_add"><i class="fal fa-user-plus"></i><span>Қатысушы қосу</span></div>
@@ -87,8 +87,8 @@
 			<div class="form_im">
 				<select class="form_im_txt flt_auto" name="dir">
 					<option value="">Барлық бағыт</option>
-					<option value="kids" <?=($f_dir=='kids'?'selected':'')?>>JAS KIDS</option>
-					<option value="adult" <?=($f_dir=='adult'?'selected':'')?>>JAS ADULT</option>
+					<option value="kids" <?=($f_dir=='kids'?'selected':'')?>>ZHASS KIDS</option>
+					<option value="adult" <?=($f_dir=='adult'?'selected':'')?>>ZHASS ADULT</option>
 				</select>
 			</div>
 			<div class="form_im">

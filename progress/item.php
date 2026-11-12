@@ -54,7 +54,7 @@
 						<? foreach ([1, 4, 7, 10] as $g): $gy = $H - $pad - ($H - 2 * $pad) * ($g - 1) / 9; ?>
 							<line x1="<?=$pad?>" x2="<?=$W - $pad?>" y1="<?=$gy?>" y2="<?=$gy?>" stroke="#e6ebe7"/><text x="8" y="<?=$gy + 4?>" font-size="11" fill="#8a948e"><?=$g?></text>
 						<? endforeach ?>
-						<polyline fill="none" stroke="#141416" stroke-width="3" stroke-linejoin="round" points="<?=implode(' ', array_map(function ($q) { return $q[0].','.$q[1]; }, $pts))?>"/>
+						<polyline fill="none" stroke="#0b3c7a" stroke-width="3" stroke-linejoin="round" points="<?=implode(' ', array_map(function ($q) { return $q[0].','.$q[1]; }, $pts))?>"/>
 						<? foreach ($pts as $q): ?>
 							<circle cx="<?=$q[0]?>" cy="<?=$q[1]?>" r="5" fill="#ffc20e"/><text x="<?=$q[0]?>" y="<?=$q[1] - 10?>" font-size="12" font-weight="700" text-anchor="middle" fill="#111113"><?=$q[2]['avg_score']?></text>
 							<text x="<?=$q[0]?>" y="<?=$H - 10?>" font-size="11" text-anchor="middle" fill="#8a948e"><?=date('d.m', strtotime($q[2]['assessed_at']))?></text>

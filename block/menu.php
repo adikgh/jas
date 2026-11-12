@@ -10,11 +10,12 @@
 		['attendance', '/attendance/', 'fa-clipboard-check', 'Қатысу', ['owner', 'admin', 'coach'], 'academy'],
 		['progress', '/progress/', 'fa-chart-line', 'Прогресс', ['owner', 'admin', 'coach', 'parent', 'participant'], 'academy'],
 		['training', '/training/', 'fa-dumbbell', 'Training Hub', ['owner', 'admin', 'coach', 'parent', 'participant'], 'academy'],
-		['rating', '/rating/', 'fa-trophy', 'JAS Rating', ['owner', 'admin', 'coach', 'parent', 'participant'], 'team'],
+		['rating', '/rating/', 'fa-trophy', 'ZHASS Rating', ['owner', 'admin', 'coach', 'parent', 'participant'], 'team'],
 		['first_team', '/first_team/', 'fa-futbol', 'First Team & ЛЛФ', ['owner', 'admin', 'coach', 'participant'], 'team'],
+		['tournaments', '/tournaments/', 'fa-trophy-alt', 'Турнирлер', ['owner', 'admin', 'coach', 'parent', 'participant'], 'team'],
 		['scouting', '/scouting/', 'fa-binoculars', 'Селекция', ['owner', 'admin', 'coach'], 'team'],
 		['media', '/media/', 'fa-images', 'Медиа', ['owner', 'admin', 'coach', 'parent', 'participant'], 'team'],
-		['live', '/live/', 'fa-video', 'JAS Live', ['owner', 'admin', 'coach', 'parent', 'participant'], 'team'],
+		['live', '/live/', 'fa-video', 'ZHASS Live', ['owner', 'admin', 'coach', 'parent', 'participant'], 'team'],
 		['subscriptions', '/subscriptions/', 'fa-id-card', 'Абонемент', ['owner', 'admin'], 'business'],
 		['payments', '/payments/', 'fa-wallet', 'Төлемдер', ['owner', 'admin'], 'business'],
 		['crm', '/crm/', 'fa-bullhorn', 'Маркетинг CRM', ['owner', 'admin'], 'business'],
@@ -67,8 +68,8 @@
 <aside class="ub1_l">
 	<div class="ub1_lc">
 		<a class="ub1_logo" href="/">
-			<div class="ub1_logo_i">JAS</div>
-			<div class="ub1_logo_t">ACADEMY<span>Шымкент<?=(core::$portal?' · '.h(core::$portals[core::$portal]['name']):'')?></span></div>
+			<img class="ub1_logo_img" src="/assets/img/first_team/logo.png" alt="ZHASS">
+			<div class="ub1_logo_t">ZHASS<span>Academy · Шымкент<?=(core::$portal?' · '.h(core::$portals[core::$portal]['name']):'')?></span></div>
 		</a>
 		<nav class="umenu_c">
 			<? foreach ($menu_groups as $g => $gn): $items = array_filter($menu_by, function ($m) use ($g) { return $m[5] == $g; }); if (!$items) continue; ?>

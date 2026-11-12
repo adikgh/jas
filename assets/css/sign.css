@@ -42,3 +42,4 @@ body{background:var(--dk)}
 .usign_head p{margin-top:6px;color:var(--bl5);font-size:13px;letter-spacing:1px}
 .usign_cn .btn{width:100%}
 .usign_help{margin-top:18px;font-size:13px;color:var(--bl5);text-align:center}
+.usign_logo_img{width:48px;height:auto}

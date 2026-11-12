@@ -83,7 +83,7 @@
 						<a class="card dsh_ki" href="/progress/item.php?id=<?=$p['id']?>" style="background:#f5f5f3"><div class="dsh_ki_t">Баға</div><div class="dsh_ki_n" style="font-size:22px"><?=($p['score'] ?: '—')?></div></a>
 					</div>
 					<? if ($p['tasks']): ?><a class="li" href="/training/"><div class="li_i"><i class="fal fa-dumbbell"></i></div><div class="li_c"><b><?=$p['tasks']?> үй тапсырмасы</b><span>Training Hub</span></div><div class="li_r"><i class="fal fa-angle-right"></i></div></a><? endif ?>
-					<? if ($p['match']): ?><a class="li" href="/first_team/match.php?id=<?=$p['match']['id']?>"><div class="li_i"><i class="fal fa-futbol"></i></div><div class="li_c"><b>JAS — <?=h($p['match']['opp'])?></b><span><?=date('d.m H:i', strtotime($p['match']['match_at']))?> · <?=h($p['match']['venue'])?></span></div></a><? endif ?>
+					<? if ($p['match']): ?><a class="li" href="/first_team/match.php?id=<?=$p['match']['id']?>"><div class="li_i"><i class="fal fa-futbol"></i></div><div class="li_c"><b>ZHASS — <?=h($p['match']['opp'])?></b><span><?=date('d.m H:i', strtotime($p['match']['match_at']))?> · <?=h($p['match']['venue'])?></span></div></a><? endif ?>
 				</div>
 			<? endforeach ?>
 			<? if (!$kids): ?><div class="card"><div class="ds_nr"><i class="fal fa-user"></i><p>Профиль байланыстырылмаған. Әкімшіге хабарласыңыз.</p></div></div><? endif ?>

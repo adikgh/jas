@@ -18,12 +18,12 @@
 		<div class="usign_c">
 
 			<div class="usign_logo">
-				<div class="usign_logo_i">JAS</div>
-				<div class="usign_logo_t">ACADEMY</div>
+				<img class="usign_logo_img" src="/assets/img/first_team/logo.png" alt="ZHASS">
+				<div class="usign_logo_t">ZHASS ACADEMY</div>
 			</div>
 			<div class="usign_head">
 				<h3 class="usign_h"><?=(core::$portal ? h(core::$portals[core::$portal]['name']).' · кіру' : 'Платформаға кіру')?></h3>
-				<p>JAS KIDS · JAS ADULT · FIRST TEAM</p>
+				<p>Балалар · Ересектер · ЛЛФ · Шымкент</p>
 			</div>
 
 			<form class="usign_cn" onsubmit="return false">

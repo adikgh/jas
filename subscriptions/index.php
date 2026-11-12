@@ -85,7 +85,7 @@
 					<option value="<?=$k?>" <?=($f_st==$k?'selected':'')?>><?=$v?></option>
 				<? endforeach ?>
 			</select></div>
-			<div class="form_im"><select class="form_im_txt flt_auto" name="dir"><option value="">Барлық бағыт</option><option value="kids" <?=($f_dir=='kids'?'selected':'')?>>JAS KIDS</option><option value="adult" <?=($f_dir=='adult'?'selected':'')?>>JAS ADULT</option></select></div>
+			<div class="form_im"><select class="form_im_txt flt_auto" name="dir"><option value="">Барлық бағыт</option><option value="kids" <?=($f_dir=='kids'?'selected':'')?>>ZHASS KIDS</option><option value="adult" <?=($f_dir=='adult'?'selected':'')?>>ZHASS ADULT</option></select></div>
 		</form>
 
 		<div class="card" style="margin-top:12px">
@@ -167,7 +167,7 @@
 			<div class="form_sep" style="margin-top:16px">Жаңа тариф</div>
 			<form class="form_g pl_form" onsubmit="return false" style="margin-top:12px">
 				<div class="form_im form_im_f"><input type="text" class="form_im_txt" name="name" maxlength="80" placeholder="Атауы, мысалы KIDS 8"></div>
-				<div class="form_im"><select class="form_im_txt" name="direction"><option value="kids">JAS KIDS</option><option value="adult">JAS ADULT</option></select></div>
+				<div class="form_im"><select class="form_im_txt" name="direction"><option value="kids">ZHASS KIDS</option><option value="adult">ZHASS ADULT</option></select></div>
 				<div class="form_im"><input type="number" class="form_im_txt" name="price" min="0" placeholder="Бағасы, ₸"></div>
 				<div class="form_im"><input type="number" class="form_im_txt" name="sessions_limit" min="1" max="100" placeholder="Жаттығу (бос = ∞)"></div>
 				<div class="form_im"><input type="number" class="form_im_txt" name="freeze_days" min="0" max="7" value="7" placeholder="Заморозка күні"></div>

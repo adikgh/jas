@@ -298,7 +298,7 @@
 							<div class="dsh_k">
 								<? foreach ($media as $m): ?><div class="card dsh_ki"><i class="fal fa-<?=($m['type']=='video'?'video':'image')?>"></i> <?=h($m['title'])?></div><? endforeach ?>
 							</div>
-						<? else: ?><div class="ds_nr ds_nr_sm"><i class="fal fa-images"></i><p>Медиа жоқ. JAS MEDIA 3-кезеңде.</p></div><? endif ?>
+						<? else: ?><div class="ds_nr ds_nr_sm"><i class="fal fa-images"></i><p>Медиа жоқ. ZHASS MEDIA 3-кезеңде.</p></div><? endif ?>
 					</div>
 				</div>
 

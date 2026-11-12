@@ -103,12 +103,12 @@
 				<div class="dsh_ki_s">First Team: <?=$first_team?></div>
 			</div>
 			<div class="card dsh_ki">
-				<div class="dsh_ki_t"><i class="fal fa-child"></i>JAS KIDS</div>
+				<div class="dsh_ki_t"><i class="fal fa-child"></i>ZHASS KIDS</div>
 				<div class="dsh_ki_n"><?=$cnt['kids']?></div>
 				<div class="dsh_ki_s">белсенді</div>
 			</div>
 			<div class="card dsh_ki">
-				<div class="dsh_ki_t"><i class="fal fa-running"></i>JAS ADULT</div>
+				<div class="dsh_ki_t"><i class="fal fa-running"></i>ZHASS ADULT</div>
 				<div class="dsh_ki_n"><?=$cnt['adult']?></div>
 				<div class="dsh_ki_s">белсенді</div>
 			</div>
@@ -231,7 +231,7 @@
 				<? foreach ($matches as $m): ?>
 					<div class="li">
 						<div class="li_i"><i class="fal fa-futbol"></i></div>
-						<div class="li_c"><b>JAS — <?=h($m['opp'])?></b><span><?=h($m['comp'])?> · <?=h($m['round'])?> · <?=($m['is_home']?'үйде':'қонақта')?></span></div>
+						<div class="li_c"><b>ZHASS — <?=h($m['opp'])?></b><span><?=h($m['comp'])?> · <?=h($m['round'])?> · <?=($m['is_home']?'үйде':'қонақта')?></span></div>
 						<div class="li_r"><?=date('d.m', strtotime($m['match_at']))?><span><?=date('H:i', strtotime($m['match_at']))?></span></div>
 					</div>
 				<? endforeach ?>

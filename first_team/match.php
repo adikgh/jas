@@ -19,12 +19,28 @@
 	$played = array_filter($players, function ($p) { return $p['sid']; });
 	$mvp = $mt['mvp_participant_id'] ? db::row("select first_name, last_name from participants where id = ?", [(int) $mt['mvp_participant_id']]) : null;
 	$st_name = ['scheduled' => 'Жоспарда', 'live' => 'Жүріп жатыр', 'finished' => 'Аяқталды', 'cancelled' => 'Болмады'];
+	// Instagram пост мәтіндері (Match Day және Матч қорытындысы)
+	$tm = 'ZHASS ACADEMY';
+	$when = date('d.m.Y', strtotime($mt['match_at'])); $hm = date('H:i', strtotime($mt['match_at']));
+	$post_day = "⚽ MATCH DAY\n🏆 $tm 🆚 ".mb_strtoupper($mt['opp'])."\n📅 $when\n🕗 $hm\n📍 ".($mt['venue'] ?: '—')."\n".trim($mt['comp_name'].' · '.$mt['round'], ' ·')
+		."\n\nБүгін алаңда мінез, тәртіп және командалық рух сыналады. 💪\nБір команда — бір мақсат! 🔥\n\n#ZHASSACADEMY #MatchDay #Football #Шымкент";
+	$post_end = '';
+	if ($mt['status'] == 'finished') {
+		$gf = (int) $mt['goals_for']; $ga = (int) $mt['goals_against'];
+		$post_end = "⚽️ МАТЧ ҚОРЫТЫНДЫСЫ\n$tm 🆚 ".mb_strtoupper($mt['opp'])."\n⏱ Қорытынды есеп: $gf:$ga\n";
+		foreach ($players as $p) if ($p['sid'] && $p['goals']) $post_end .= "⚽️ ".$p['last_name'].' '.$p['first_name']." — ".(int) $p['goals']." гол\n";
+		foreach ($players as $p) if ($p['sid'] && $p['assists']) $post_end .= "🅰️ ".$p['last_name'].' '.$p['first_name']." — ".(int) $p['assists']." пас\n";
+		if ($mvp) $post_end .= "🏆 Матчтың үздік ойыншысы: ".$mvp['last_name'].' '.$mvp['first_name']."\n";
+		$post_end .= "\n".($gf > $ga ? "Маңызды 3 ұпай қоржында! 🔥" : ($gf == $ga ? "Команда соңына дейін күресіп, маңызды ұпайға қол жеткізді." : "Бүгін ұпайсыз қалдық, бірақ қорытынды шығарып, алға жүреміз."))
+			."\n👏 Қолдау көрсеткен барлық жанкүйерлерге рақмет!\n💙💛 Бір команда — бір тағдыр! 🔥\n\n#ZHASSACADEMY #".preg_replace('/\W+/u', '', $mt['opp'])." #Football";
+	}
+
 	$res = $mt['status'] == 'finished' ? ($mt['goals_for'] > $mt['goals_against'] ? ['Жеңіс', 'bdg_ok'] : ($mt['goals_for'] == $mt['goals_against'] ? ['Тең', 'bdg_warn'] : ['Ұтылыс', 'bdg_err'])) : null;
 
 
 	// site setting
 	$menu_name = 'first_team';
-	$menu_title = 'JAS — '.$mt['opp'];
+	$menu_title = 'ZHASS — '.$mt['opp'];
 	$site_set['utop_bk'] = '/first_team/';
 	$css = ['first_team'];
 	$js = ['first_team'];
@@ -51,7 +67,7 @@
 				<div class="card_h"><h6>Нәтиже</h6></div>
 				<div class="form_g">
 					<div class="form_im"><label class="form_l">Мәртебе</label><select class="form_im_txt ms_st"><? foreach ($st_name as $k => $v): ?><option value="<?=$k?>" <?=($mt['status']==$k?'selected':'')?>><?=$v?></option><? endforeach ?></select></div>
-					<div class="form_im"><label class="form_l">JAS голы</label><input type="number" class="form_im_txt ms_gf" min="0" max="50" value="<?=h($mt['goals_for'])?>"></div>
+					<div class="form_im"><label class="form_l">ZHASS голы</label><input type="number" class="form_im_txt ms_gf" min="0" max="50" value="<?=h($mt['goals_for'])?>"></div>
 					<div class="form_im"><label class="form_l">Қарсылас голы</label><input type="number" class="form_im_txt ms_ga" min="0" max="50" value="<?=h($mt['goals_against'])?>"></div>
 					<div class="form_im"><label class="form_l">MVP</label><select class="form_im_txt ms_mvp"><option value="">—</option><? foreach ($players as $p): ?><option value="<?=$p['id']?>" <?=($mt['mvp_participant_id']==$p['id']?'selected':'')?>><?=h($p['last_name'].' '.$p['first_name'])?></option><? endforeach ?></select></div>
 				</div>
@@ -89,6 +105,22 @@
 				<? if (!$played): ?><div class="ds_nr ds_nr_sm"><i class="fal fa-futbol"></i><p>Құрам әлі белгіленбеген</p></div><? endif ?>
 			<? endif ?>
 		</div>
+
+		<? if ($staff): ?>
+			<div class="card ms_post" style="margin-top:16px" data-tm="ZHASS ACADEMY" data-opp="<?=h($mt['opp'])?>" data-score="<?=($mt['status']=='finished' ? (int) $mt['goals_for'].' : '.(int) $mt['goals_against'] : $hm)?>" data-fin="<?=($mt['status']=='finished'?1:0)?>" data-date="<?=h($when)?>" data-venue="<?=h($mt['venue'])?>" data-comp="<?=h(trim($mt['comp_name'].' · '.$mt['round'], ' ·'))?>">
+				<div class="card_h"><h6><i class="fab fa-instagram"></i> Instagram пост</h6></div>
+				<div class="tab ms_ptab">
+					<div class="tab_i tab_i_act" data-t="day">Match Day</div>
+					<? if ($post_end): ?><div class="tab_i" data-t="end">Матч қорытындысы</div><? endif ?>
+				</div>
+				<textarea class="form_im_txt ms_ptxt" data-t="day" rows="11" style="margin-top:12px;height:auto;padding:12px;line-height:1.5"><?=h($post_day)?></textarea>
+				<? if ($post_end): ?><textarea class="form_im_txt ms_ptxt" data-t="end" rows="12" style="margin-top:12px;height:auto;padding:12px;line-height:1.5;display:none"><?=h($post_end)?></textarea><? endif ?>
+				<div class="form_btns" style="gap:8px;display:flex;flex-wrap:wrap">
+					<div class="btn btn_sm ms_pcopy"><i class="fal fa-copy"></i><span>Мәтінді көшіру</span></div>
+					<div class="btn btn_sm btn_ghost ms_pimg"><i class="fal fa-image"></i><span>Сурет жүктеу (1080×1350)</span></div>
+				</div>
+			</div>
+		<? endif ?>
 
 		<div style="height:40px"></div>
 	</div>

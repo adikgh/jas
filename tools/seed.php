@@ -15,7 +15,7 @@
 	db::tx(function () use ($today, $pass) {
 
 		// ұйым
-		$org = db::ins("insert into organizations (name, slug, city, phone, whatsapp, instagram) values ('JAS ACADEMY', 'jas', 'Шымкент', '87000000000', '77000000000', 'jas.academy')");
+		$org = db::ins("insert into organizations (name, slug, city, phone, whatsapp, instagram) values ('ZHASS ACADEMY', 'zhass', 'Шымкент', '87014846699', '77014846699', 'fc_zhass_academy')");
 		core::$org_id = $org;
 
 		// қызметкерлер
@@ -36,8 +36,8 @@
 		$coach1 = $u['87000000003']; $coach2 = $u['87000000004'];
 
 		// алаңдар, топтар
-		$v1 = db::ins("insert into venues (organization_id, name, address) values (?, 'JAS Arena', 'Шымкент, демо мекенжай 1')", [$org]);
-		$v2 = db::ins("insert into venues (organization_id, name, address) values (?, 'Мектеп алаңы', 'Шымкент, демо мекенжай 2')", [$org]);
+		$v1 = db::ins("insert into venues (organization_id, name, address) values (?, 'Жабық манеж', 'Шымкент')", [$org]);
+		$v2 = db::ins("insert into venues (organization_id, name, address) values (?, '«Цементник» стадионы', 'Шымкент')", [$org]);
 		$groups = [
 			['KIDS U8', 'kids', 6, 8, $coach1, $v1, [[1, '16:00'], [3, '16:00'], [5, '16:00']]],
 			['KIDS U11', 'kids', 9, 11, $coach1, $v1, [[2, '17:00'], [4, '17:00'], [6, '11:00']]],
@@ -160,14 +160,14 @@
 			db::q("insert into leads (organization_id, name, phone, direction, source, campaign_id, status) values (?, ?, ?, ?, ?, ?, ?)", [$org, $l[0], '8702000000'.$i, $i % 2 ? 'adult' : 'kids', $l[2], $camp, $l[1]]);
 
 		// бірінші құрам, ЛЛФ
-		$team = db::ins("insert into teams (organization_id, name) values (?, 'JAS FIRST TEAM')", [$org]);
+		$team = db::ins("insert into teams (organization_id, name) values (?, 'ZHASS ACADEMY')", [$org]);
 		foreach ($parts as $p) if ($p['dir'] == 'adult' && mt_rand(0, 1)) db::q("insert into team_rosters (organization_id, team_id, participant_id, joined_at) values (?, ?, ?, ?)", [$org, $team, $p['id'], date('Y-m-d', strtotime('-90 day'))]);
-		$comp = db::ins("insert into competitions (organization_id, name, season, start_date) values (?, 'ЛЛФ Шымкент', ?, ?)", [$org, date('Y'), date('Y-m-d', strtotime('-60 day'))]);
+		$comp = db::ins("insert into competitions (organization_id, name, season, start_date) values (?, 'Шымкент әуесқой лигасы', ?, ?)", [$org, date('Y'), date('Y-m-d', strtotime('-60 day'))]);
 		$opps = [];
-		foreach (['Ордабасы Ветераны', 'Тұран FC', 'Жастар', 'Арсенал Шымкент', 'Қазығұрт FC'] as $o) $opps[] = db::ins("insert into opponents (organization_id, name) values (?, ?)", [$org, $o]);
-		db::q("insert into matches (organization_id, competition_id, team_id, opponent_id, round, match_at, venue, goals_for, goals_against, status) values (?, ?, ?, ?, '1-тур', ?, 'JAS Arena', 3, 1, 'finished')", [$org, $comp, $team, $opps[0], date('Y-m-d 19:00:00', strtotime('-14 day'))]);
-		db::q("insert into matches (organization_id, competition_id, team_id, opponent_id, round, match_at, venue, goals_for, goals_against, status) values (?, ?, ?, ?, '2-тур', ?, 'Тұран алаңы', 2, 2, 'finished')", [$org, $comp, $team, $opps[1], date('Y-m-d 19:00:00', strtotime('-7 day'))]);
-		foreach ([3, 10, 17] as $n => $d) db::q("insert into matches (organization_id, competition_id, team_id, opponent_id, round, match_at, venue, is_home) values (?, ?, ?, ?, ?, ?, 'JAS Arena', ?)", [$org, $comp, $team, $opps[$n + 2], ($n + 3).'-тур', date('Y-m-d 20:00:00', strtotime("+$d day")), $n % 2 ? 0 : 1]);
+		foreach (['Қарабастау', 'KASPINET', 'Металлург', 'Ынтымақ', 'FC SHYMKENT'] as $o) $opps[] = db::ins("insert into opponents (organization_id, name) values (?, ?)", [$org, $o]);
+		db::q("insert into matches (organization_id, competition_id, team_id, opponent_id, round, match_at, venue, goals_for, goals_against, status) values (?, ?, ?, ?, '1-тур', ?, '«Цементник» стадионы', 3, 1, 'finished')", [$org, $comp, $team, $opps[0], date('Y-m-d 19:00:00', strtotime('-14 day'))]);
+		db::q("insert into matches (organization_id, competition_id, team_id, opponent_id, round, match_at, venue, goals_for, goals_against, status) values (?, ?, ?, ?, '2-тур', ?, '«Цементник» стадионы', 3, 3, 'finished')", [$org, $comp, $team, $opps[1], date('Y-m-d 19:00:00', strtotime('-7 day'))]);
+		foreach ([3, 10, 17] as $n => $d) db::q("insert into matches (organization_id, competition_id, team_id, opponent_id, round, match_at, venue, is_home) values (?, ?, ?, ?, ?, ?, '«Цементник» стадионы', ?)", [$org, $comp, $team, $opps[$n + 2], ($n + 3).'-тур', date('Y-m-d 20:00:00', strtotime("+$d day")), $n % 2 ? 0 : 1]);
 
 		// өткен матчтардың футболшы статистикасы
 		$roster = array_column(db::all("select participant_id from team_rosters where team_id = ? order by id", [$team]), 'participant_id');
@@ -206,6 +206,19 @@
 		foreach ($parts as $p) if ($p['dir'] == 'adult' && !db::val("select id from team_rosters where participant_id = ? and left_at is null", [$p['id']]) && $k < 5)
 			db::q("insert into selection_candidates (organization_id, campaign_id, participant_id, status, notes) values (?, ?, ?, ?, ?)", [$org, $sel, $p['id'], $st[$k++], 'Жылдамдығы жақсы']);
 
+		// турнирлер: өткен ішкі турнир (нәтижесімен) + алдағы жексенбілік (тіркелу ашық)
+		$tr1 = db::ins("insert into tournaments (organization_id, name, kind, direction, starts_at, venue, entry_fee, max_teams, prize, status, join_code, created_by) values (?, 'ZHASS ішкі кубогы', 'internal', 'adult', ?, 'Жабық манеж', 0, 4, 'Кубок және медальдар', 'finished', ?, ?)",
+			[$org, date('Y-m-d 18:00:00', strtotime('-9 day')), substr(bin2hex(random_bytes(8)), 0, 10), $coach2]);
+		$tt = [];
+		foreach (['ZHASS Сары', 'ZHASS Көк', 'ZHASS Ақ', 'ZHASS Қара'] as $i => $n) $tt[] = db::ins("insert into tournament_teams (tournament_id, name, paid, place) values (?, ?, 1, ?)", [$tr1, $n, [1, null, 2, 3][$i]]);
+		foreach ([[0, 1, 2, 1], [2, 3, 1, 1], [0, 2, 3, 0], [1, 3, 2, 2], [0, 3, 1, 0], [1, 2, 0, 1]] as $g)
+			db::q("insert into tournament_games (tournament_id, home_id, away_id, stage, home_goals, away_goals, status) values (?, ?, ?, 'Топ', ?, ?, 'finished')", [$tr1, $tt[$g[0]], $tt[$g[1]], $g[2], $g[3]]);
+		db::q("insert into tournament_awards (tournament_id, title, person) values (?, 'Үздік ойыншы', 'Әлихан (ZHASS Сары)'), (?, 'Үздік қақпашы', 'Нұрлыбек (ZHASS Ақ)')", [$tr1, $tr1]);
+		$tr2 = db::ins("insert into tournaments (organization_id, name, kind, direction, starts_at, venue, entry_fee, max_teams, prize, status, join_code, created_by) values (?, 'ZHASS Sunday Cup', 'sunday', 'adult', ?, '«Цементник» стадионы', 15000, 8, 'Кубок, медальдар, үздік ойыншыға сыйлық', 'registration', ?, ?)",
+			[$org, date('Y-m-d 10:00:00', strtotime('next sunday')), substr(bin2hex(random_bytes(8)), 0, 10), $u['87000000002']]);
+		foreach ([['Қарабастау', 'Ерлан', '87031110001', 1], ['KASPINET', 'Дәурен', '87031110002', 0], ['Ынтымақ', 'Санжар', '87031110003', 1]] as $x)
+			db::q("insert into tournament_teams (tournament_id, name, captain, phone, paid) values (?, ?, ?, ?, ?)", [$tr2, $x[0], $x[1], $x[2], $x[3]]);
+
 		// Training Hub
 		$lessons = [['technique', 'Допты екі аяқпен жүргізу', 'Конустар арасымен 10 метр, екі аяқпен кезектесіп', 'easy', '3 × 10', 'jNQXAC9IVRw'], ['physical', 'Жылдамдыққа жаттығу', 'Сатымен жүгіру және 20 м спринт', 'medium', '4 × 20 м', null], ['ball', 'Жонглирование', 'Допты жерге түсірмей ұрып тұру', 'easy', '5 мин', null], ['tactics', 'Позиция таңдау', 'Видеоны қарап, қорғаныс позициясын түсіну', 'medium', '1 видео', null]];
 		$lids = [];
@@ -222,7 +235,7 @@
 		foreach ([['instagram', 'KIDS жаттығуынан reels', 'ready', 1], ['tiktok', 'Голдар топ-5', 'in_work', 3], ['instagram', 'Күзгі қабылдау жарнамасы', 'idea', 6]] as $c)
 			db::q("insert into content_items (organization_id, channel, title, publish_at, status, assignee_id) values (?, ?, ?, ?, ?, ?)", [$org, $c[0], $c[1], date('Y-m-d 19:00:00', strtotime("+{$c[3]} day")), $c[2], $u['87000000002']]);
 		$nm = db::row("select id, match_at from matches where team_id = ? and status = 'scheduled' order by match_at limit 1", [$team]);
-		if ($nm) db::q("insert into live_streams (organization_id, match_id, platform, title, url, youtube_id, starts_at) values (?, ?, 'youtube', 'ЛЛФ: JAS FIRST TEAM тікелей эфир', 'https://www.youtube.com/watch?v=jNQXAC9IVRw', 'jNQXAC9IVRw', ?)", [$org, $nm['id'], $nm['match_at']]);
+		if ($nm) db::q("insert into live_streams (organization_id, match_id, platform, title, url, youtube_id, starts_at) values (?, ?, 'youtube', 'ЛЛФ: ZHASS ACADEMY тікелей эфир', 'https://www.youtube.com/watch?v=jNQXAC9IVRw', 'jNQXAC9IVRw', ?)", [$org, $nm['id'], $nm['match_at']]);
 	});
 
 	echo "seed ok\nДемо кіру: 87000000001 (иесі), 87000000002 (әкімші), 87000000003 (бапкер), 87000000005 (ата-ана), 87000000006 (қатысушы)\nҚұпия сөз: jas2026\n";

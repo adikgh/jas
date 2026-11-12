@@ -103,7 +103,7 @@
 							<? if (!empty($s['match'])): ?>
 								<a class="sch_s sch_s_match" href="/first_team/match.php?id=<?=$s['id']?>">
 									<b><?=date('H:i', strtotime($s['match_at']))?> · ЛЛФ</b>
-									<span>JAS — <?=h($s['opp'])?></span>
+									<span>ZHASS — <?=h($s['opp'])?></span>
 									<span><?=h($s['venue'])?></span>
 								</a>
 							<? else: ?>
@@ -137,7 +137,7 @@
 		<? endif ?>
 
 		<div class="bar_lg" style="margin:16px 0 40px">
-			<span style="--c:var(--green)">JAS KIDS</span><span style="--c:var(--gold)">JAS ADULT</span><span style="--c:var(--dk)">ЛЛФ матч</span><span style="--c:var(--err)">Болдырылмады</span>
+			<span style="--c:var(--green)">ZHASS KIDS</span><span style="--c:var(--gold)">ZHASS ADULT</span><span style="--c:var(--dk)">ЛЛФ матч</span><span style="--c:var(--err)">Болдырылмады</span>
 		</div>
 	</div>
 

@@ -57,7 +57,7 @@
 				<div class="pop_h"><h5>Жаңа топ</h5><div class="pop_x pop_back"><i class="fal fa-times"></i></div></div>
 				<form class="form_g gr_form" onsubmit="return false">
 					<div class="form_im form_im_f"><label class="form_l">Атауы <em>*</em></label><input type="text" class="form_im_txt" name="name" maxlength="80" placeholder="KIDS U9"></div>
-					<div class="form_im"><label class="form_l">Бағыты <em>*</em></label><select class="form_im_txt" name="direction"><option value="kids">JAS KIDS</option><option value="adult">JAS ADULT</option></select></div>
+					<div class="form_im"><label class="form_l">Бағыты <em>*</em></label><select class="form_im_txt" name="direction"><option value="kids">ZHASS KIDS</option><option value="adult">ZHASS ADULT</option></select></div>
 					<div class="form_im"><label class="form_l">Сыйымдылығы</label><input type="number" class="form_im_txt" name="capacity" min="1" max="200"></div>
 					<div class="form_im"><label class="form_l">Жасы (бастап)</label><input type="number" class="form_im_txt" name="age_from" min="3" max="80"></div>
 					<div class="form_im"><label class="form_l">Жасы (дейін)</label><input type="number" class="form_im_txt" name="age_to" min="3" max="80"></div>

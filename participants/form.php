@@ -15,8 +15,8 @@
 			<div class="form_im"><label class="form_l">Бағыты <em>*</em></label>
 				<select class="form_im_txt pf_dir" name="direction">
 					<option value="">Таңдаңыз</option>
-					<option value="kids" <?=($fp_v('direction')=='kids'?'selected':'')?>>JAS KIDS</option>
-					<option value="adult" <?=($fp_v('direction')=='adult'?'selected':'')?>>JAS ADULT</option>
+					<option value="kids" <?=($fp_v('direction')=='kids'?'selected':'')?>>ZHASS KIDS</option>
+					<option value="adult" <?=($fp_v('direction')=='adult'?'selected':'')?>>ZHASS ADULT</option>
 				</select>
 			</div>
 			<div class="form_im"><label class="form_l">Телефон <span class="pf_ph_req" style="display:none"><em>*</em></span></label><input type="tel" class="form_im_txt fr_phone" name="phone" value="<?=h($fp && $fp['phone'] ? substr($fp['phone'], 1) : '')?>" placeholder="8 (700) 000-00-00"></div>
@@ -34,7 +34,7 @@
 						<? foreach ($groups_all as $g): ?><option value="<?=$g['id']?>" data-dir="<?=$g['direction']?>"><?=h($g['name'])?> · <?=h($g['coach_name'])?></option><? endforeach ?>
 					</select>
 				</div>
-				<div class="form_sep pf_guard">Ата-анасы (JAS KIDS үшін міндетті)</div>
+				<div class="form_sep pf_guard">Ата-анасы (ZHASS KIDS үшін міндетті)</div>
 				<div class="form_im pf_guard"><label class="form_l">Аты-жөні <em>*</em></label><input type="text" class="form_im_txt" name="guardian_name" maxlength="120"></div>
 				<div class="form_im pf_guard"><label class="form_l">Телефоны <em>*</em></label><input type="tel" class="form_im_txt fr_phone" name="guardian_phone" placeholder="8 (700) 000-00-00"></div>
 				<div class="form_im pf_guard form_im_f"><label class="form_l">Кім болады</label>

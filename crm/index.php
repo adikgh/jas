@@ -92,7 +92,7 @@
 			<form class="form_g ld_form" onsubmit="return false">
 				<div class="form_im form_im_f"><label class="form_l">Аты</label><input type="text" class="form_im_txt" name="name" maxlength="120"></div>
 				<div class="form_im form_im_f"><label class="form_l">Телефон</label><input type="tel" class="form_im_txt fr_phone" name="phone"></div>
-				<div class="form_im"><label class="form_l">Бағыты</label><select class="form_im_txt" name="direction"><option value="">—</option><option value="kids">JAS KIDS</option><option value="adult">JAS ADULT</option></select></div>
+				<div class="form_im"><label class="form_l">Бағыты</label><select class="form_im_txt" name="direction"><option value="">—</option><option value="kids">ZHASS KIDS</option><option value="adult">ZHASS ADULT</option></select></div>
 				<div class="form_im"><label class="form_l">Баланың жасы</label><input type="number" class="form_im_txt" name="child_age" min="3" max="60"></div>
 				<div class="form_im"><label class="form_l">Қайдан</label><select class="form_im_txt" name="source"><? foreach ($src as $k => $v): ?><option value="<?=$k?>"><?=$v?></option><? endforeach ?></select></div>
 				<div class="form_im"><label class="form_l">Кампания</label><select class="form_im_txt" name="campaign_id"><option value="">—</option><? foreach ($camps as $c): ?><option value="<?=$c['id']?>"><?=h($c['name'])?></option><? endforeach ?></select></div>

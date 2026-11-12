@@ -30,7 +30,7 @@
 		$p = db::row("select * from participants where id = ? and organization_id = ? and archived_at is null", [(int) fun::post('participant_id'), $org_id]);
 		if (!$c) fun::json(['ok' => false, 'mess' => 'Іріктеу жабық']);
 		if (!$p) fun::json(['ok' => false, 'mess' => 'Қатысушыны таңдаңыз']);
-		if ($c['target'] == 'first_team' && $p['direction'] != 'adult') fun::json(['ok' => false, 'mess' => 'Бірінші құрамға тек JAS ADULT']);
+		if ($c['target'] == 'first_team' && $p['direction'] != 'adult') fun::json(['ok' => false, 'mess' => 'Бірінші құрамға тек ZHASS ADULT']);
 		if (db::val("select id from selection_candidates where campaign_id = ? and participant_id = ?", [(int) $c['id'], (int) $p['id']])) fun::json(['ok' => false, 'mess' => 'Тізімде бар']);
 		$id = db::ins("insert into selection_candidates (organization_id, campaign_id, participant_id, notes) values (?, ?, ?, ?)", [$org_id, (int) $c['id'], (int) $p['id'], fun::post('notes') ?: null]);
 		fun::audit('candidate_add', 'participants', $p['id'], null, ['campaign' => $c['name']]);

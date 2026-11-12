@@ -140,6 +140,13 @@
 		do { if ($r = mysqli_store_result(db::$connect)) mysqli_free_result($r); } while (mysqli_more_results(db::$connect) && mysqli_next_result(db::$connect));
 	}
 
+	// жаңа модуль кестелері жоқ болса — қосу (тек CREATE TABLE IF NOT EXISTS, ештеңе өшірмейді)
+	if (php_sapi_name() != 'cli' && !db::query("SHOW TABLES LIKE 'tournaments'")->num_rows && is_file(__DIR__.'/../sql/002_tournaments.sql')) {
+		mysqli_multi_query(db::$connect, file_get_contents(__DIR__.'/../sql/002_tournaments.sql'));
+		do { if ($r = mysqli_store_result(db::$connect)) mysqli_free_result($r); } while (mysqli_more_results(db::$connect) && mysqli_next_result(db::$connect));
+		if (db::query("SHOW TABLES LIKE 'migrations'")->num_rows) db::query("insert ignore into migrations (name) values ('002_tournaments.sql')");
+	}
+
 	// data
 	$core = new core;
 	$user = core::$user_data;
@@ -157,7 +164,7 @@
 
 	// setting
 	$site = $org_id ? db::row("select * from organizations where id = ?", [$org_id]) : db::row("select * from organizations order by id limit 1");
-	$ver = 1.005;
+	$ver = 1.007;
 	$site_set = [
 		'header' => true,
 		'menu' => true,
