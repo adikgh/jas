@@ -21,13 +21,13 @@
 			'coach' => ['name' => 'Бапкер', 'roles' => ['coach']],
 			'my'    => ['name' => 'Ата-ана және қатысушы', 'roles' => ['parent', 'participant']],
 		];
-		// Бөлек домендер (лайф): хост => портал. '' = негізгі (бәріне ашық) домен.
+		// Домендер жиыны: портал => хост. '' = бәріне ашық домен.
+		// Лайф: jasa / jasc / jasm. Жергілікті: jas.c (әкімші), coach.jas.c, my.jas.c.
 		public static $portal_hosts = [
-			'rent-as.gprog.kz' => '',
-			'jasa.gprog.kz' => 'admin',
-			'jasc.gprog.kz' => 'coach',
-			'jasm.gprog.kz' => 'my',
+			['' => 'rent-as.gprog.kz', 'admin' => 'jasa.gprog.kz', 'coach' => 'jasc.gprog.kz', 'my' => 'jasm.gprog.kz'],
+			['admin' => 'jas.c', 'coach' => 'coach.jas.c', 'my' => 'my.jas.c'],
 		];
+		public static $host_set = null;  // ағымдағы домендер жиыны
 		public static $portal = '';      // ағымдағы портал ('' = негізгі)
 		public static $base_host = '';   // префикссіз домен
 
@@ -70,7 +70,11 @@
 		// хост атауынан порталды анықтау: coach.jas.c -> coach
 		public static function portal_detect() {
 			$host = strtolower(preg_replace('/:\d+$/', '', (string) @$_SERVER['HTTP_HOST']));
-			if (isset(self::$portal_hosts[$host])) { self::$portal = self::$portal_hosts[$host]; self::$base_host = $host; return; }
+			self::$host_set = null;
+			foreach (self::$portal_hosts as $set) {
+				$k = array_search($host, $set, true);
+				if ($k !== false) { self::$portal = $k; self::$base_host = $host; self::$host_set = $set; return; }
+			}
 			$first = strstr($host, '.', true);
 			if ($first !== false && isset(self::$portals[$first])) { self::$portal = $first; self::$base_host = substr($host, strlen($first) + 1); }
 			else { self::$portal = ''; self::$base_host = $host; }
@@ -84,10 +88,8 @@
 		public static function portal_url($portal, $path = '/') {
 			$https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
 			$port = isset($_SERVER['SERVER_PORT']) && !in_array((int) $_SERVER['SERVER_PORT'], [80, 443]) ? ':'.(int) $_SERVER['SERVER_PORT'] : '';
-			if (isset(self::$portal_hosts[self::$base_host])) {
-				$host = array_search($portal, self::$portal_hosts, true);
-				if ($host !== false) return ($https ? 'https' : 'http').'://'.$host.$port.$path;
-			}
+			if (self::$host_set !== null)
+				return ($https ? 'https' : 'http').'://'.(isset(self::$host_set[$portal]) ? self::$host_set[$portal] : self::$base_host).$port.$path;
 			return ($https ? 'https' : 'http').'://'.($portal ? $portal.'.' : '').self::$base_host.$port.$path;
 		}
 
